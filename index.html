@@ -6,80 +6,56 @@
 <title>Carnet Chauffeur RDC - Victor Yangama</title>
 <style>
 body{font-family:Arial;background:#f0f2f5;margin:0;padding:15px}
-.header{background:linear-gradient(135deg,#007fff,#ff0000,#ffeb00);color:white;padding:20px;border-radius:15px;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,0.2)}
-.header h1{margin:0;font-size:22px}
-.header p{margin:5px 0 0 0;opacity:0.9}
+.header{background:linear-gradient(135deg,#007fff,#ff0000,#ffeb00);color:white;padding:20px;border-radius:15px;text-align:center}
 .card{background:white;padding:20px;border-radius:15px;margin-top:15px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
-label{font-weight:bold;display:block;margin-top:12px;color:#333}
+label{font-weight:bold;display:block;margin-top:12px}
 input{width:100%;padding:12px;margin-top:5px;border:2px solid #ddd;border-radius:8px;font-size:16px;box-sizing:border-box}
-button{background:#007fff;color:white;border:none;padding:15px;width:100%;border-radius:10px;font-size:18px;font-weight:bold;margin-top:15px;cursor:pointer}
+.btn-bleu{background:#007fff;color:white;border:none;padding:15px;width:100%;border-radius:10px;font-size:18px;font-weight:bold;margin-top:15px}
+.btn-vert{background:#25D366;color:white;border:none;padding:15px;width:100%;border-radius:10px;font-size:18px;font-weight:bold;margin-top:10px;display:none}
 .result{background:#e8f5e9;padding:15px;border-radius:10px;margin-top:15px;display:none;border-left:5px solid #00c853}
-.benefice{font-size:24px;font-weight:bold;color:#00c853}
-.footer{text-align:center;margin-top:20px;color:#888;font-size:12px}
+.benefice{font-size:28px;font-weight:bold;color:#00c853}
 </style>
 </head>
 <body>
-<div class="header">
-<h1>🚚 CARNET CHAUFFEUR RDC 🇨🇩</h1>
-<p>Par Victor Yangama - Chauffeur Pro Kinshasa</p>
-</div>
-
+<div class="header"><h1>🚚 CARNET CHAUFFEUR RDC 🇨🇩</h1><p>Par Victor Yangama - Kinshasa</p></div>
 <div class="card">
-<label>👤 Nom du client / Destination</label>
-<input id="client" type="text" placeholder="Ex: Gombe - Matonge">
-
-<label>📏 Distance (km)</label>
-<input id="km" type="number" placeholder="Ex: 15">
-
-<label>⛽ Consommation (Litre/100km)</label>
-<input id="conso" type="number" value="8" placeholder="Ex: 8">
-
-<label>💰 Prix 1 Litre Carburant (FC)</label>
-<input id="prixCarb" type="number" value="3500" placeholder="Ex: 3500">
-
-<label>💵 Prix payé par client (FC)</label>
-<input id="prixCourse" type="number" placeholder="Ex: 25000">
-
-<button onclick="calculer()">CALCULER MON BÉNÉFICE 💰</button>
-
+<label>👤 Client / Destination</label><input id="client" type="text" placeholder="Ex: Gombe - Matonge">
+<label>📏 Distance (km)</label><input id="km" type="number" placeholder="Ex: 15">
+<label>⛽ Conso (L/100km)</label><input id="conso" type="number" value="8">
+<label>💰 Prix 1L Carburant (FC)</label><input id="prixCarb" type="number" value="3500">
+<label>💵 Prix payé par client (FC)</label><input id="prixCourse" type="number" placeholder="Ex: 25000">
+<button class="btn-bleu" onclick="calculer()">CALCULER MON BÉNÉFICE 💰</button>
 <div id="resultat" class="result">
-<p>⛽ Carburant utilisé: <b id="rCarb"></b></p>
-<p>💸 Coût carburant: <b id="rCout"></b> FC</p>
-<p>💵 Prix course: <b id="rPrix"></b> FC</p>
-<hr>
-<p>🎉 MON BÉNÉFICE NET:</p>
-<div class="benefice" id="rBenef"></div>
-<p id="msg"></p>
+<p>⛽ Utilisé: <b id="rCarb"></b></p><p>💸 Coût: <b id="rCout"></b> FC</p><p>💵 Prix course: <b id="rPrix"></b> FC</p><hr>
+<p>🎉 BÉNÉFICE NET:</p><div class="benefice" id="rBenef"></div><p id="msg"></p>
+<button class="btn-vert" id="btnWa" onclick="envoyerWA()">📲 ENVOYER REÇU WHATSAPP AU CLIENT</button>
 </div>
 </div>
-
-<div class="footer">App créée à Kinshasa par Victor Yangama - 2026<br>Tous droits réservés chauffeurs RDC</div>
-
 <script>
+let dernierRecu="";
 function calculer(){
 let km=parseFloat(document.getElementById('km').value)||0;
 let conso=parseFloat(document.getElementById('conso').value)||0;
 let prixCarb=parseFloat(document.getElementById('prixCarb').value)||0;
 let prixCourse=parseFloat(document.getElementById('prixCourse').value)||0;
-let client=document.getElementById('client').value;
-
-if(km==0 || prixCourse==0){alert("Remplis la distance et le prix de la course !");return;}
-
-let litres=(km*conso)/100;
-let cout=litres*prixCarb;
-let benef=prixCourse-cout;
-
-document.getElementById('rCarb').innerText=litres.toFixed(2)+" Litres";
+let client=document.getElementById('client').value||"Client";
+if(km==0||prixCourse==0){alert("Remplis distance et prix course!");return;}
+let litres=(km*conso)/100;let cout=litres*prixCarb;let benef=prixCourse-cout;
+document.getElementById('rCarb').innerText=litres.toFixed(2)+" L";
 document.getElementById('rCout').innerText=cout.toFixed(0);
 document.getElementById('rPrix').innerText=prixCourse.toFixed(0);
 document.getElementById('rBenef').innerText=benef.toFixed(0)+" FC";
-
-let msgEl=document.getElementById('msg');
-if(benef>10000) msgEl.innerText="🔥 Excellente course "+client+" ! Kitoko !";
-else if(benef>0) msgEl.innerText="👍 Course rentable, continue !";
-else msgEl.innerText="⚠️ Tu perds de l'argent sur cette course !";
-
+let m=document.getElementById('msg');
+if(benef>10000) m.innerText="🔥 Excellente course "+client+" ! Kitoko!";
+else if(benef>0) m.innerText="👍 Course rentable!";
+else m.innerText="⚠️ Tu perds!";
+dernierRecu=`Bonjour ${client} 👋\n\nReçu de votre course avec Victor Yangama 🇨🇩\n\n📍 Destination: ${client}\n📏 Distance: ${km} km\n💵 Montant payé: ${prixCourse} FC\n\nMerci pour votre confiance ! 🙏\nVictor - Chauffeur Pro Kinshasa`;
 document.getElementById('resultat').style.display='block';
+document.getElementById('btnWa').style.display='block';
+}
+function envoyerWA(){
+let url="https://wa.me/?text="+encodeURIComponent(dernierRecu);
+window.open(url,"_blank");
 }
 </script>
 </body>
