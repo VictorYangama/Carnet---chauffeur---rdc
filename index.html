@@ -3,47 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carnet Chauffeur RDC - par Victor Yangama</title>
+<title>Carnet Chauffeur RDC - Victor Yangama</title>
 <style>
-body{font-family:Arial; background:#f0f4f8; padding:20px; max-width:500px; margin:auto}
-.card{background:white; padding:20px; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1)}
-input,button{width:100%; padding:12px; margin:8px 0; border-radius:8px; border:1px solid #ccc}
-button{background:#0d6efd; color:white; font-weight:bold; border:none}
-h2{color:#0d6efd; text-align:center}
-.result{background:#e7f3ff; padding:15px; border-radius:10px; margin-top:15px}
+body{font-family:Arial;background:#f0f2f5;margin:0;padding:15px}
+.header{background:linear-gradient(135deg,#007fff,#ff0000,#ffeb00);color:white;padding:20px;border-radius:15px;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,0.2)}
+.header h1{margin:0;font-size:22px}
+.header p{margin:5px 0 0 0;opacity:0.9}
+.card{background:white;padding:20px;border-radius:15px;margin-top:15px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+label{font-weight:bold;display:block;margin-top:12px;color:#333}
+input{width:100%;padding:12px;margin-top:5px;border:2px solid #ddd;border-radius:8px;font-size:16px;box-sizing:border-box}
+button{background:#007fff;color:white;border:none;padding:15px;width:100%;border-radius:10px;font-size:18px;font-weight:bold;margin-top:15px;cursor:pointer}
+.result{background:#e8f5e9;padding:15px;border-radius:10px;margin-top:15px;display:none;border-left:5px solid #00c853}
+.benefice{font-size:24px;font-weight:bold;color:#00c853}
+.footer{text-align:center;margin-top:20px;color:#888;font-size:12px}
 </style>
 </head>
 <body>
-<div class="card">
-<h2>🚚 Carnet Chauffeur Kinshasa</h2>
-<p style="text-align:center; font-size:14px">Par Victor Yangama - Chauffeur Kinois & Futur Dev</p>
-
-<label>Distance (km)</label>
-<input type="number" id="km" placeholder="Ex: 25">
-<label>Carburant utilisé (Litres)</label>
-<input type="number" id="litres" placeholder="Ex: 3">
-<label>Prix 1 Litre (FC)</label>
-<input type="number" id="prix" value="3500">
-
-<button onclick="calculer()">Calculer Mon Trajet</button>
-
-<div id="res" class="result" style="display:none"></div>
-
-<p style="font-size:12px; margin-top:20px; text-align:center">
-Projet créé par Victor Yangama, né à Kinshasa, diplômé à Kinshasa, pour aider les chauffeurs de Kinshasa.
-</p>
+<div class="header">
+<h1>🚚 CARNET CHAUFFEUR RDC 🇨🇩</h1>
+<p>Par Victor Yangama - Chauffeur Pro Kinshasa</p>
 </div>
+
+<div class="card">
+<label>👤 Nom du client / Destination</label>
+<input id="client" type="text" placeholder="Ex: Gombe - Matonge">
+
+<label>📏 Distance (km)</label>
+<input id="km" type="number" placeholder="Ex: 15">
+
+<label>⛽ Consommation (Litre/100km)</label>
+<input id="conso" type="number" value="8" placeholder="Ex: 8">
+
+<label>💰 Prix 1 Litre Carburant (FC)</label>
+<input id="prixCarb" type="number" value="3500" placeholder="Ex: 3500">
+
+<label>💵 Prix payé par client (FC)</label>
+<input id="prixCourse" type="number" placeholder="Ex: 25000">
+
+<button onclick="calculer()">CALCULER MON BÉNÉFICE 💰</button>
+
+<div id="resultat" class="result">
+<p>⛽ Carburant utilisé: <b id="rCarb"></b></p>
+<p>💸 Coût carburant: <b id="rCout"></b> FC</p>
+<p>💵 Prix course: <b id="rPrix"></b> FC</p>
+<hr>
+<p>🎉 MON BÉNÉFICE NET:</p>
+<div class="benefice" id="rBenef"></div>
+<p id="msg"></p>
+</div>
+</div>
+
+<div class="footer">App créée à Kinshasa par Victor Yangama - 2026<br>Tous droits réservés chauffeurs RDC</div>
 
 <script>
 function calculer(){
- let km = document.getElementById('km').value;
- let l = document.getElementById('litres').value;
- let p = document.getElementById('prix').value;
- if(!km || !l){alert('Remplis km et litres'); return;}
- let conso = (l/km*100).toFixed(1);
- let cout = l*p;
- document.getElementById('res').style.display='block';
- document.getElementById('res').innerHTML = `<b>Résultat :</b><br>Consommation: ${conso} L/100km<br>Coût: ${cout} FC<br><br><i>Projet 100% Kinois</i>`;
+let km=parseFloat(document.getElementById('km').value)||0;
+let conso=parseFloat(document.getElementById('conso').value)||0;
+let prixCarb=parseFloat(document.getElementById('prixCarb').value)||0;
+let prixCourse=parseFloat(document.getElementById('prixCourse').value)||0;
+let client=document.getElementById('client').value;
+
+if(km==0 || prixCourse==0){alert("Remplis la distance et le prix de la course !");return;}
+
+let litres=(km*conso)/100;
+let cout=litres*prixCarb;
+let benef=prixCourse-cout;
+
+document.getElementById('rCarb').innerText=litres.toFixed(2)+" Litres";
+document.getElementById('rCout').innerText=cout.toFixed(0);
+document.getElementById('rPrix').innerText=prixCourse.toFixed(0);
+document.getElementById('rBenef').innerText=benef.toFixed(0)+" FC";
+
+let msgEl=document.getElementById('msg');
+if(benef>10000) msgEl.innerText="🔥 Excellente course "+client+" ! Kitoko !";
+else if(benef>0) msgEl.innerText="👍 Course rentable, continue !";
+else msgEl.innerText="⚠️ Tu perds de l'argent sur cette course !";
+
+document.getElementById('resultat').style.display='block';
 }
 </script>
 </body>
