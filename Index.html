@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carnet Chauffeur RDC - par Victor Yangama</title>
+<style>
+body{font-family:Arial; background:#f0f4f8; padding:20px; max-width:500px; margin:auto}
+.card{background:white; padding:20px; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+input,button{width:100%; padding:12px; margin:8px 0; border-radius:8px; border:1px solid #ccc}
+button{background:#0d6efd; color:white; font-weight:bold; border:none}
+h2{color:#0d6efd; text-align:center}
+.result{background:#e7f3ff; padding:15px; border-radius:10px; margin-top:15px}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>🚚 Carnet Chauffeur Kinshasa</h2>
+<p style="text-align:center; font-size:14px">Par Victor Yangama - Chauffeur Kinois & Futur Dev</p>
+
+<label>Distance (km)</label>
+<input type="number" id="km" placeholder="Ex: 25">
+<label>Carburant utilisé (Litres)</label>
+<input type="number" id="litres" placeholder="Ex: 3">
+<label>Prix 1 Litre (FC)</label>
+<input type="number" id="prix" value="3500">
+
+<button onclick="calculer()">Calculer Mon Trajet</button>
+
+<div id="res" class="result" style="display:none"></div>
+
+<p style="font-size:12px; margin-top:20px; text-align:center">
+Projet créé par Victor Yangama, né à Kinshasa, diplômé à Kinshasa, pour aider les chauffeurs de Kinshasa.
+</p>
+</div>
+
+<script>
+function calculer(){
+ let km = document.getElementById('km').value;
+ let l = document.getElementById('litres').value;
+ let p = document.getElementById('prix').value;
+ if(!km || !l){alert('Remplis km et litres'); return;}
+ let conso = (l/km*100).toFixed(1);
+ let cout = l*p;
+ document.getElementById('res').style.display='block';
+ document.getElementById('res').innerHTML = `<b>Résultat :</b><br>Consommation: ${conso} L/100km<br>Coût: ${cout} FC<br><br><i>Projet 100% Kinois</i>`;
+}
+</script>
+</body>
+</html>
