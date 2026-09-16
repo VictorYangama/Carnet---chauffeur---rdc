@@ -65,11 +65,14 @@ window.open(url,"_blank");
   let arrivee = document.getElementById("kmArrivee").value;
   if(depart && arrivee){
     let distance = arrivee - depart;
-    document.getElementById("resultatDistance").innerText = "Aujourd'hui: " + distance + " km parcourus";
+    document.getElementById("resultatDistance").innerText = "Aujourd'hui: " + distance + " km parcouru
+function calculerDistance(){
+  let depart = parseFloat(document.getElementById("kmDepart").value);
+  let arrivee = parseFloat(document.getElementById("kmArrivee").value);
+  if(arrivee > depart){
+    let d = arrivee - depart;
+    document.getElementById("resultatDistance").innerHTML = "📏 Aujourd'hui: <b>" + d + " km</b> parcourus";
+  } else {
+    document.getElementById("resultatDistance").innerText = "Vérifie, arrivée doit être > départ";
   }
-}
-</body><input id="kmDepart" type="number" placeholder="Km départ matin">
-<input id="kmArrivee" type="number" placeholder="Km arrivée soir">
-<button onclick="calculerDistance()">Calculer distance</button>
-<p id="resultatDistance"></p>
-</html>
+} </script>
