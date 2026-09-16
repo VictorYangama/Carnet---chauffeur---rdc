@@ -58,5 +58,8 @@ let url="https://wa.me/?text="+encodeURIComponent(dernierRecu);
 window.open(url,"_blank");
 }
 </script>
-</body>
+</body><input id="kmDepart" type="number" placeholder="Km départ matin">
+<input id="kmArrivee" type="number" placeholder="Km arrivée soir">
+<button onclick="calculerDistance()">Calculer distance</button>
+<p id="resultatDistance"></p>
 </html>
