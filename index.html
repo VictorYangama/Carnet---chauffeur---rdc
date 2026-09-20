@@ -58,21 +58,14 @@ document.getElementById('btnWa').style.display='block';
 }
 function envoyerWA(){
 let url="https://wa.me/?text="+encodeURIComponent(dernierRecu);
-window.open(url,"_blank");
-}
-</script>function calculerDistance(){
+window.open(url,"_blank"); 
+function calculerDistance(){
   let depart = document.getElementById("kmDepart").value;
   let arrivee = document.getElementById("kmArrivee").value;
   if(depart && arrivee){
     let distance = arrivee - depart;
     document.getElementById("resultatDistance").innerText = "Aujourd'hui: " + distance + " km parcouru
-function calculerDistance(){
-  let depart = parseFloat(document.getElementById("kmDepart").value);
-  let arrivee = parseFloat(document.getElementById("kmArrivee").value);
-  if(arrivee > depart){
-    let d = arrivee - depart;
-    document.getElementById("resultatDistance").innerHTML = "📏 Aujourd'hui: <b>" + d + " km</b> parcourus";
-  } else {
-    document.getElementById("resultatDistance").innerText = "Vérifie, arrivée doit être > départ";
-  }
+
 } </script>
+</body>
+</html>
