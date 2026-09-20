@@ -24,7 +24,11 @@ input{width:100%;padding:12px;margin-top:5px;border:2px solid #ddd;border-radius
 <label>⛽ Conso (L/100km)</label><input id="conso" type="number" value="8">
 <label>💰 Prix 1L Carburant (FC)</label><input id="prixCarb" type="number" value="3500">
 <label>💵 Prix payé par client (FC)</label><input id="prixCourse" type="number" placeholder="Ex: 25000"><label>🕘 Km départ matin</label><input id="kmDepart" type="number" placeholder="Ex: 12300">
+<label>🕒 Km départ matin</label><input id="kmDepart" type="number" placeholder="Ex: 12300">
 <label>🌙 Km arrivée soir</label><input id="kmArrivee" type="number" placeholder="Ex: 12450">
+<button class="btn-bleu" onclick="calculerDistance()">📏 Calculer Distance du jour</button>
+<p id="resultatDistance" class="result"></p>
+<button class="btn-bleu" onclick="calculer()">CALCULER MON BÉNÉFICE 💰</button>
 <button class="btn-bleu" onclick="calculerDistance()">📏 Calculer Distance du jour</button>
 <p id="resultatDistance" class="result"></p>
 <button class="btn-bleu" onclick="calculer()">CALCULER MON BÉNÉFICE 💰</button>
