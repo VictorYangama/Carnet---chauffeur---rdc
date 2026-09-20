@@ -61,14 +61,18 @@ document.getElementById('resultat').style.display='block';
 document.getElementById('btnWa').style.display='block';
 }
 function envoyerWA(){
-let url="https://wa.me/?text="+encodeURIComponent(dernierRecu);
-window.open(url,"_blank"); 
+  let url="https://wa.me/?text="+encodeURIComponent(dernierRecu);
+  window.open(url,"_blank");
+}
+
 function calculerDistance(){
   let depart = document.getElementById("kmDepart").value;
   let arrivee = document.getElementById("kmArrivee").value;
   if(depart && arrivee){
-    let distance = arrivee - depart;  
-
-document.getElementById("resultatDistance").innerText="Aujourd'hui: "+distance+" km";
+    let distance = arrivee - depart;
+    document.getElementById("resultatDistance").innerText="Aujourd'hui: "+distance+" km";
+  }
+}
+</script>
 </body>
 </html>
