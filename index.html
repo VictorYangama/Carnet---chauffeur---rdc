@@ -1,77 +1,74 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carnet Chauffeur RDC - Victor Yangama</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calcul Bénéfice Taxi</title>
 <style>
-body{font-family:Arial;background:#f0f2f5;margin:0;padding:15px}
-.header{background:linear-gradient(135deg,#007fff,#ff0000,#ffeb00);color:white;padding:20px;border-radius:15px;text-align:center}
-.card{background:white;padding:20px;border-radius:15px;margin-top:15px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
-label{font-weight:bold;display:block;margin-top:12px}
-input{width:100%;padding:12px;margin-top:5px;border:2px solid #ddd;border-radius:8px;font-size:16px;box-sizing:border-box}
-.btn-bleu{background:#007fff;color:white;border:none;padding:15px;width:100%;border-radius:10px;font-size:18px;font-weight:bold;margin-top:15px}
-.btn-vert{background:#25D366;color:white;border:none;padding:15px;width:100%;border-radius:10px;font-size:18px;font-weight:bold;margin-top:10px;display:none}
-.result{background:#e8f5e9;padding:15px;border-radius:10px;margin-top:15px;display:none;border-left:5px solid #00c853}
-.benefice{font-size:28px;font-weight:bold;color:#00c853}
+body{font-family:Arial;background:#f0f2f5;padding:15px}
+.card{background:white;padding:20px;border-radius:15px;max-width:400px;margin:auto}
+input{width:100%;padding:12px;margin:8px 0 15px 0;border-radius:10px;border:1px solid #ccc}
+.btn-bleu{width:100%;padding:14px;background:#1976d2;color:white;border:none;border-radius:10px;font-weight:bold;margin-top:10px}
+.result{background:#e8f5e9;padding:15px;border-radius:10px;margin-top:15px;display:none}
 </style>
 </head>
 <body>
-<div class="header"><h1>🚚 CARNET CHAUFFEUR RDC 🇨🇩</h1><p>Par Victor Yangama - Kinshasa</p></div>
 <div class="card">
-<label>👤 Client / Destination</label><input id="client" type="text" placeholder="Ex: Gombe - Matonge">
+<h2 style="text-align:center">🚕 Taxi Bénéfice</h2>
+
+<label>👤 Client</label><input id="client" placeholder="Nom client">
 <label>📏 Distance (km)</label><input id="km" type="number" placeholder="Ex: 15">
 <label>⛽ Conso (L/100km)</label><input id="conso" type="number" value="8">
-<label>💰 Prix 1L Carburant (FC)</label><input id="prixCarb" type="number" value="3500">
-<label>💵 Prix payé par client (FC)</label><input id="prixCourse" type="number" placeholder="Ex: 25000"><label>🕘 Km départ matin</label><input id="kmDepart" type="number" placeholder="Ex: 12300">
+<label>💰 Prix 1L (FC)</label><input id="prix1L" type="number" value="3500">
+<label>💵 Prix payé (FC)</label><input id="prixCourse" type="number" placeholder="Ex: 25000">
+
 <label>🕒 Km départ matin</label><input id="kmDepart" type="number" placeholder="Ex: 12300">
 <label>🌙 Km arrivée soir</label><input id="kmArrivee" type="number" placeholder="Ex: 12450">
+
 <button class="btn-bleu" onclick="calculerDistance()">📏 Calculer Distance du jour</button>
-<p id="resultatDistance" class="result"></p>
+<p id="resultatDistance" style="text-align:center;font-weight:bold;color:green;margin:10px 0;"></p>
+
 <button class="btn-bleu" onclick="calculer()">CALCULER MON BÉNÉFICE 💰</button>
-<button class="btn-bleu" onclick="calculerDistance()">📏 Calculer Distance du jour</button>
-<p id="resultatDistance" class="result"></p>
-<button class="btn-bleu" onclick="calculer()">CALCULER MON BÉNÉFICE 💰</button>
+
 <div id="resultat" class="result">
-<p>⛽ Utilisé: <b id="rCarb"></b></p><p>💸 Coût: <b id="rCout"></b> FC</p><p>💵 Prix course: <b id="rPrix"></b> FC</p><hr>
-<p>🎉 BÉNÉFICE NET:</p><div class="benefice" id="rBenef"></div><p id="msg"></p>
-<button class="btn-vert" id="btnWa" onclick="envoyerWA()">📲 ENVOYER REÇU WHATSAPP AU CLIENT</button>
+<p id="rCarb"></p><p id="rCout"></p><p id="rPrix"></p><p id="rBenef"></p><p id="msg" style="font-weight:bold"></p>
 </div>
+<button id="btnWa" class="btn-bleu" style="display:none;background:#25D366" onclick="envoyerWA()">Envoyer reçu WhatsApp</button>
 </div>
+
 <script>
 let dernierRecu="";
 function calculer(){
-let km=parseFloat(document.getElementById('km').value)||0;
-let conso=parseFloat(document.getElementById('conso').value)||0;
-let prixCarb=parseFloat(document.getElementById('prixCarb').value)||0;
-let prixCourse=parseFloat(document.getElementById('prixCourse').value)||0;
-let client=document.getElementById('client').value||"Client";
-if(km==0||prixCourse==0){alert("Remplis distance et prix course!");return;}
-let litres=(km*conso)/100;let cout=litres*prixCarb;let benef=prixCourse-cout;
-document.getElementById('rCarb').innerText=litres.toFixed(2)+" L";
-document.getElementById('rCout').innerText=cout.toFixed(0);
-document.getElementById('rPrix').innerText=prixCourse.toFixed(0);
-document.getElementById('rBenef').innerText=benef.toFixed(0)+" FC";
+let client=document.getElementById('client').value;
+let km=document.getElementById('km').value;
+let conso=document.getElementById('conso').value;
+let prix1L=document.getElementById('prix1L').value;
+let prixCourse=document.getElementById('prixCourse').value;
+if(km==0||prixCourse==0){alert("Remplis Distance et Prix payé");return;}
+let litres=(km*conso)/100;let cout=litres*prix1L;let benef=prixCourse-cout;
+document.getElementById('rCarb').innerText="Carburant: "+litres.toFixed(2)+" L";
+document.getElementById('rCout').innerText="Coût: "+cout+" FC";
+document.getElementById('rPrix').innerText="Prix payé: "+prixCourse+" FC";
+document.getElementById('rBenef').innerText="Bénéfice: "+benef+" FC";
 let m=document.getElementById('msg');
-if(benef>10000) m.innerText="🔥 Excellente course "+client+" ! Kitoko!";
-else if(benef>0) m.innerText="👍 Course rentable!";
+if(benef>10000) m.innerText="🔥 Excellent!";
+else if(benef>0) m.innerText="👍 Course rentable";
 else m.innerText="⚠️ Tu perds!";
-dernierRecu=`Bonjour ${client} 👋\n\nReçu de votre course avec Victor Yangama 🇨🇩\n\n📍 Destination: ${client}\n📏 Distance: ${km} km\n💵 Montant payé: ${prixCourse} FC\n\nMerci pour votre confiance ! 🙏\nVictor - Chauffeur Pro Kinshasa`;
+dernierRecu=`Bonjour ${client} 👋\n\nReçu course: ${km}km\nBénéfice: ${benef} FC`;
 document.getElementById('resultat').style.display='block';
 document.getElementById('btnWa').style.display='block';
 }
 function envoyerWA(){
-  let url="https://wa.me/?text="+encodeURIComponent(dernierRecu);
-  window.open(url,"_blank");
+let url="https://wa.me/?text="+encodeURIComponent(dernierRecu);
+window.open(url,"_blank");
 }
-
 function calculerDistance(){
-  let depart = document.getElementById("kmDepart").value;
-  let arrivee = document.getElementById("kmArrivee").value;
-  if(depart && arrivee){
-    let distance = arrivee - depart;
-    document.getElementById("resultatDistance").innerText="Aujourd'hui: "+distance+" km";
-  }
+let depart=document.getElementById("kmDepart").value;
+let arrivee=document.getElementById("kmArrivee").value;
+if(depart && arrivee){
+let distance=arrivee-depart;
+document.getElementById("resultatDistance").innerText="✅ Aujourd'hui: "+distance+" km";
+}
 }
 </script>
 </body>
