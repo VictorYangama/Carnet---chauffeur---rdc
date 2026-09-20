@@ -67,9 +67,8 @@ function calculerDistance(){
   let depart = document.getElementById("kmDepart").value;
   let arrivee = document.getElementById("kmArrivee").value;
   if(depart && arrivee){
-    let distance = arrivee - depart;
-    document.getElementById("resultatDistance").innerText = "Aujourd'hui: " + distance + " km parcouru
+    let distance = arrivee - depart;  
 
-} </script>
+document.getElementById("resultatDistance").innerText="Aujourd'hui: "+distance+" km";
 </body>
 </html>
