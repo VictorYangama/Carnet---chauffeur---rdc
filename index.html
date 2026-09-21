@@ -28,7 +28,7 @@ input,select{width:100%;padding:12px;margin:6px 0 12px 0;border-radius:10px;bord
 <p>✅ Calcul Théorique vs Déclaré<br>✅ Alerte VOL auto<br>✅ Rapport PDF Officiel avec nom entreprise</p>
 <div style="background:#f1f5f9;padding:10px;border-radius:10px;text-align:center"><div class="price">150$ / mois</div><small>7 jours d'essai gratuit - Kinshasa</small></div>
 <a href="#app" class="btn btn-vert">👇 UTILISER L'APP MAINTENANT</a>
-<p style="font-size:10px;text-align:center;color:#64748b">Créé par Victory Angama - Kinshasa</p>
+<p style="font-size:10px;text-align:center;color:#64748b">Créé par Victor yangama - Kinshasa</p>
 </div>
 </div>
 
@@ -84,7 +84,7 @@ if(courses.length==0){alert("Pas de données - Enregistre d'abord une course");r
 const { jsPDF } = window.jspdf; const doc = new jsPDF();
 let entreprise = document.getElementById('nomEntreprise').value || "ENTREPRISE CLIENT";
 doc.setFontSize(16); doc.text("FLEET RDC PRO - RAPPORT OFFICIEL",10,15);
-doc.setFontSize(11); doc.text(`Entreprise: ${entreprise}`,10,25); doc.text(`Date: ${new Date().toLocaleDateString('fr-FR')}`,10,31); doc.text(`Généré par Victory Angama`,10,37);
+doc.setFontSize(11); doc.text(`Entreprise: ${entreprise}`,10,25); doc.text(`Date: ${new Date().toLocaleDateString('fr-FR')}`,10,31); doc.text(`Généré par Victor yangama`,10,37);
 doc.line(10,40,200,40);
 let y=50; let tKm=0,tBen=0,tVol=0;
 courses.forEach((c,i)=>{doc.setFontSize(9); doc.text(`${i+1}. ${c.date} | ${c.camion} | ${c.client} | ${c.km}km | Theo ${c.litresThe
