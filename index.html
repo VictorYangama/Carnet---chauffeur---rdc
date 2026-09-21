@@ -3,72 +3,159 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Calcul Bénéfice Taxi</title>
+<title>Fleet RDC - Gestion Usine</title>
 <style>
-body{font-family:Arial;background:#f0f2f5;padding:15px}
-.card{background:white;padding:20px;border-radius:15px;max-width:400px;margin:auto}
-input{width:100%;padding:12px;margin:8px 0 15px 0;border-radius:10px;border:1px solid #ccc}
-.btn-bleu{width:100%;padding:14px;background:#1976d2;color:white;border:none;border-radius:10px;font-weight:bold;margin-top:10px}
-.result{background:#e8f5e9;padding:15px;border-radius:10px;margin-top:15px;display:none}
+body{font-family:Arial;background:#0f172a;padding:12px;color:#333}
+.card{background:white;padding:20px;border-radius:15px;max-width:450px;margin:auto;box-shadow:0 10px 25px rgba(0,0,0,0.3)}
+input,select{width:100%;padding:12px;margin:6px 0 12px 0;border-radius:10px;border:1px solid #ccc;box-sizing:border-box}
+.btn{width:100%;padding:14px;color:white;border:none;border-radius:10px;font-weight:bold;margin-top:8px;cursor:pointer}
+.btn-bleu{background:#1976d2}.btn-vert{background:#16a34a}.btn-noir{background:#1e293b}.btn-orange{background:#ea580c}
+.result{background:#f1f5f9;padding:15px;border-radius:10px;margin-top:15px;border-left:5px solid #1976d2}
+.alert-vol{background:#fee2e2;border-left:5px solid #ef4444;padding:12px;border-radius:8px;margin-top:10px;display:none}
+.ok-vol{background:#dcfce7;border-left:5px solid #22c55e;padding:12px;border-radius:8px;margin-top:10px;display:none}
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:12px;color:white;margin:2px}
 </style>
 </head>
 <body>
 <div class="card">
-<h2 style="text-align:center">🚕 Taxi Bénéfice</h2>
+<h2 style="text-align:center;margin:0">🚚 FLEET RDC PRO</h2>
+<p style="text-align:center;color:#64748b;font-size:13px">Gestion Carburant & Livraisons Usine</p>
 
-<label>👤 Client</label><input id="client" placeholder="Nom client">
-<label>📏 Distance (km)</label><input id="km" type="number" placeholder="Ex: 15">
-<label>⛽ Conso (L/100km)</label><input id="conso" type="number" value="8">
+<label>🏢 Camion / Véhicule</label>
+<select id="camionSelect" onchange="chargerCamion()"></select>
+<button class="btn btn-noir" style="padding:8px;font-size:13px" onclick="ajouterCamion()">+ Ajouter nouveau camion</button>
+
+<hr style="margin:15px 0">
+
+<label>📦 Client / Destination</label><input id="client" placeholder="Ex: Dépôt Limete / Bralima">
+<label>📏 Distance livraison (km)</label><input id="km" type="number" placeholder="Ex: 45">
+<label>⛽ Conso théorique (L/100km)</label><input id="conso" type="number" value="28">
+<label>⛽ Carburant déclaré par chauffeur (L)</label><input id="carbDeclare" type="number" placeholder="Ex: 20 - Ce qu'il dit avoir mis">
 <label>💰 Prix 1L (FC)</label><input id="prix1L" type="number" value="3500">
-<label>💵 Prix payé (FC)</label><input id="prixCourse" type="number" placeholder="Ex: 25000">
+<label>💵 Facturation livraison (FC)</label><input id="prixCourse" type="number" placeholder="Ex: 250000">
 
-<label>🕒 Km départ matin</label><input id="kmDepart" type="number" placeholder="Ex: 12300">
-<label>🌙 Km arrivée soir</label><input id="kmArrivee" type="number" placeholder="Ex: 12450">
+<label>🕒 Km compteur départ</label><input id="kmDepart" type="number" placeholder="Ex: 45200">
+<label>🌙 Km compteur arrivée</label><input id="kmArrivee" type="number" placeholder="Ex: 45350">
 
-<button class="btn-bleu" onclick="calculerDistance()">📏 Calculer Distance du jour</button>
-<p id="resultatDistance" style="text-align:center;font-weight:bold;color:green;margin:10px 0;"></p>
+<button class="btn btn-bleu" onclick="calculer()">🔍 ANALYSER LIVRAISON + CARBURANT</button>
 
-<button class="btn-bleu" onclick="calculer()">CALCULER MON BÉNÉFICE 💰</button>
-
-<div id="resultat" class="result">
-<p id="rCarb"></p><p id="rCout"></p><p id="rPrix"></p><p id="rBenef"></p><p id="msg" style="font-weight:bold"></p>
+<div id="resultat" class="result" style="display:none">
+<p id="rCarb"></p><p id="rCout"></p><p id="rBenef"></p>
+<div id="alertVol" class="alert-vol"></div>
+<div id="okVol" class="ok-vol"></div>
+<p id="rKmJour" style="font-weight:bold"></p>
 </div>
-<button id="btnWa" class="btn-bleu" style="display:none;background:#25D366" onclick="envoyerWA()">Envoyer reçu WhatsApp</button>
+
+<button id="btnWa" class="btn" style="display:none;background:#25D366" onclick="envoyerWA()">📲 Envoyer Rapport WhatsApp au Patron</button>
+<button id="btnSave" class="btn btn-orange" style="display:none" onclick="sauvegarderCourse()">💾 Enregistrer cette course</button>
+
+<hr style="margin:15px 0">
+<h3 style="font-size:14px">📊 Journal Fleet du Jour</h3>
+<div id="journal" style="font-size:13px;background:#fffbeb;padding:10px;border-radius:8px">Aucune course aujourd'hui</div>
+<button class="btn btn-noir" onclick="genererPDF()">📄 Générer Rapport PDF Patron (Semaine)</button>
+
 </div>
 
 <script>
-let dernierRecu="";
+// --- GESTION MULTI-CAMIONS ---
+let camions = JSON.parse(localStorage.getItem('fleet_camions') || '["Camion 01 - HINO","Camion 02 - FUSO"]');
+let courses = JSON.parse(localStorage.getItem('fleet_courses') || '[]');
+
+function initSelect(){
+  let sel=document.getElementById('camionSelect'); sel.innerHTML='';
+  camions.forEach(c=>{let o=document.createElement('option');o.value=c;o.innerText=c;sel.appendChild(o);});
+}
+function ajouterCamion(){
+  let nom=prompt("Nom du nouveau camion (ex: Camion 03 - ACTROS)");
+  if(nom){camions.push(nom);localStorage.setItem('fleet_camions',JSON.stringify(camions));initSelect();}
+}
+function chargerCamion(){}
+initSelect();
+
+let dernierRecu=""; let dernierCalcul=null;
+
 function calculer(){
-let client=document.getElementById('client').value;
-let km=document.getElementById('km').value;
-let conso=document.getElementById('conso').value;
-let prix1L=document.getElementById('prix1L').value;
-let prixCourse=document.getElementById('prixCourse').value;
-if(km==0||prixCourse==0){alert("Remplis Distance et Prix payé");return;}
-let litres=(km*conso)/100;let cout=litres*prix1L;let benef=prixCourse-cout;
-document.getElementById('rCarb').innerText="Carburant: "+litres.toFixed(2)+" L";
-document.getElementById('rCout').innerText="Coût: "+cout+" FC";
-document.getElementById('rPrix').innerText="Prix payé: "+prixCourse+" FC";
-document.getElementById('rBenef').innerText="Bénéfice: "+benef+" FC";
-let m=document.getElementById('msg');
-if(benef>10000) m.innerText="🔥 Excellent!";
-else if(benef>0) m.innerText="👍 Course rentable";
-else m.innerText="⚠️ Tu perds!";
-dernierRecu=`Bonjour ${client} 👋\n\nReçu course: ${km}km\nBénéfice: ${benef} FC`;
+let camion=document.getElementById('camionSelect').value;
+let client=document.getElementById('client').value || 'Client';
+let km=parseFloat(document.getElementById('km').value);
+let conso=parseFloat(document.getElementById('conso').value);
+let carbDeclare=parseFloat(document.getElementById('carbDeclare').value);
+let prix1L=parseFloat(document.getElementById('prix1L').value);
+let prixCourse=parseFloat(document.getElementById('prixCourse').value);
+let kmDep=parseFloat(document.getElementById('kmDepart').value);
+let kmArr=parseFloat(document.getElementById('kmArrivee').value);
+
+if(!km ||!prixCourse){alert("Remplis Distance et Facturation");return;}
+
+let litresTheorique=(km*conso)/100;
+let coutTheorique=litresTheorique*prix1L;
+let benef=prixCourse-coutTheorique;
+let kmJour = (kmDep && kmArr)? kmArr-kmDep : km;
+
+document.getElementById('rCarb').innerText=`⛽ Théorique: ${litresTheorique.toFixed(1)}L | Déclaré: ${carbDeclare||0}L`;
+document.getElementById('rCout').innerText=`💰 Coût carburant: ${coutTheorique.toFixed(0)} FC`;
+document.getElementById('rBenef').innerText=`📈 Bénéfice net: ${benef.toFixed(0)} FC`;
+document.getElementById('rKmJour').innerText=`📏 Km du jour: ${kmJour} km`;
+
+let alertDiv=document.getElementById('alertVol');
+let okDiv=document.getElementById('okVol');
+alertDiv.style.display='none'; okDiv.style.display='none';
+
+if(carbDeclare){
+  let diff = carbDeclare - litresTheorique;
+  if(diff > 3){
+    alertDiv.innerHTML=`🚨 <b>ALERTE CARBURANT VOLÉ / FUITE</b><br>Chauffeur a déclaré ${carbDeclare}L mais il faut ${litresTheorique.toFixed(1)}L pour ${km}km.<br><b>Surplus suspect: +${diff.toFixed(1)}L = ${(diff*prix1L).toFixed(0)} FC</b>`;
+    alertDiv.style.display='block';
+  } else if(diff < -2){
+    okDiv.innerHTML=`✅ Conduite économe! Économie de ${Math.abs(diff).toFixed(1)}L`;
+    okDiv.style.display='block';
+  } else {
+    okDiv.innerHTML=`✅ Carburant cohérent, RAS`;
+    okDiv.style.display='block';
+  }
+}
+
+dernierCalcul={camion,client,km,litresTheorique,carbDeclare,coutTheorique,benef,kmJour,date:new Date().toLocaleString('fr-FR')};
+dernierRecu=`🚚 *FLEET RDC - RAPPORT*\n\n🏢 ${camion}\n📦 ${client}\n📏 ${km} km (Total jour: ${kmJour} km)\n⛽ Théorique: ${litresTheorique.toFixed(1)}L / Déclaré: ${carbDeclare||0}L\n💰 Bénéfice: ${benef.toFixed(0)} FC\n📅 ${dernierCalcul.date}\n\n${diff>3? '🚨 ALERTE: +'+diff.toFixed(1)+'L suspect' : '✅ Carburant OK'}`;
+
 document.getElementById('resultat').style.display='block';
 document.getElementById('btnWa').style.display='block';
+document.getElementById('btnSave').style.display='block';
 }
+
+function sauvegarderCourse(){
+  if(!dernierCalcul)return;
+  courses.push(dernierCalcul);
+  localStorage.setItem('fleet_courses',JSON.stringify(courses));
+  afficherJournal();
+  alert('Course enregistrée pour le rapport patron!');
+}
+
+function afficherJournal(){
+  if(courses.length==0){document.getElementById('journal').innerHTML='Aucune course';return;}
+  let totalKm=courses.reduce((s,c)=>s+c.km,0);
+  let totalBenef=courses.reduce((s,c)=>s+c.benef,0);
+  let totalVol=courses.reduce((s,c)=>s+Math.max(0,(c.carbDeclare||0)-c.litresTheorique),0);
+  let html=`<b>Aujourd'hui: ${courses.length} livraisons</b><br>Total: ${totalKm} km | Bénéf: ${totalBenef.toFixed(0)} FC<br>Surplus carburant total: ${totalVol.toFixed(1)}L<br><br>`;
+  courses.slice(-5).forEach(c=>{html+=`• ${c.camion} - ${c.km}km - ${c.client}<br>`});
+  document.getElementById('journal').innerHTML=html;
+}
+afficherJournal();
+
 function envoyerWA(){
-let url="https://wa.me/?text="+encodeURIComponent(dernierRecu);
-window.open(url,"_blank");
+  window.open("https://wa.me/?text="+encodeURIComponent(dernierRecu),"_blank");
 }
-function calculerDistance(){
-let depart=document.getElementById("kmDepart").value;
-let arrivee=document.getElementById("kmArrivee").value;
-if(depart && arrivee){
-let distance=arrivee-depart;
-document.getElementById("resultatDistance").innerText="✅ Aujourd'hui: "+distance+" km";
-}
+
+function genererPDF(){
+  if(courses.length==0){alert("Pas de données pour PDF");return;}
+  let totalKm=courses.reduce((s,c)=>s+c.km,0);
+  let totalBenef=courses.reduce((s,c)=>s+c.benef,0);
+  let totalVol=courses.reduce((s,c)=>s+Math.max(0,(c.carbDeclare||0)-c.litresTheorique),0);
+  let texte=`RAPPORT FLEET RDC - ${new Date().toLocaleDateString()}\n\nTotal livraisons: ${courses.length}\nTotal Km: ${totalKm}\nBénéfice total: ${totalBenef} FC\nCarburant suspect total: ${totalVol.toFixed(1)}L = ${(totalVol*3500).toFixed(0)} FC PERTE\n\nDÉTAIL:\n`+courses.map(c=>`${c.date} | ${c.camion} | ${c.client} | ${c.km}km | Benef ${c.benef.toFixed(0)} FC | Declare ${c.carbDeclare||0}L vs Theo ${c.litresTheorique.toFixed(1)}L`).join('\n');
+  let blob=new Blob([texte],{type:'text/plain'});
+  let url=URL.createObjectURL(blob);
+  let a=document.createElement('a');a.href=url;a.download='Rapport_Fleet_RDC.txt';a.click();
+  alert("Rapport généré! Envoie ce fichier.txt sur WhatsApp au patron, il va adorer. Pour le vrai PDF, on le fera après.");
 }
 </script>
 </body>
