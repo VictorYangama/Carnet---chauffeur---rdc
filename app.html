@@ -1,41 +1,49 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fleet RDC - Gestion Usine</title>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FLEET RDC PRO</title>
 <style>
-body{font-family:Arial;background:#0f172a;padding:12px;color:#333}
-.card{background:white;padding:20px;border-radius:15px;max-width:450px;margin:auto}
+body{font-family:Arial;margin:0;background:#0f172a;color:white}
+.hero{padding:30px 20px;text-align:center;background:linear-gradient(135deg,#0f172a,#1e40af)}
+.card{background:white;color:#1e293b;padding:20px;border-radius:15px;max-width:450px;margin:20px auto}
 input,select{width:100%;padding:12px;margin:6px 0 12px 0;border-radius:10px;border:1px solid #ccc;box-sizing:border-box}
-.btn{width:100%;padding:14px;color:white;border:none;border-radius:10px;font-weight:bold;margin-top:8px;cursor:pointer}
-.btn-bleu{background:#1976d2}.btn-noir{background:#1e293b}.btn-orange{background:#ea580c}
-.result{background:#f1f5f9;padding:15px;border-radius:10px;margin-top:15px;border-left:5px solid #1976d2}
-.alert-vol{background:#fee2e2;border-left:5px solid #ef4444;padding:12px;border-radius:8px;margin-top:10px;display:none}
-.ok-vol{background:#dcfce7;border-left:5px solid #22c55e;padding:12px;border-radius:8px;margin-top:10px;display:none}
-</style>
-</head>
-<body>
-<div class="card">
-<h2 style="text-align:center;margin:0">🚚 FLEET RDC PRO</h2>
-<p style="text-align:center;color:#64748b;font-size:13px">Gestion Carburant & Livraisons Usine</p>
-<label>🏢 Camion / Véhicule</label><select id="camionSelect"></select>
-<button class="btn btn-noir" style="padding:8px;font-size:13px" onclick="ajouterCamion()">+ Ajouter nouveau camion</button>
-<hr>
-<label>📦 Client / Destination</label><input id="client" placeholder="Ex: Dépôt Limete">
-<label>📏 Distance livraison (km)</label><input id="km" type="number" placeholder="Ex: 45">
+.btn{width:100%;padding:14px;color:white;border:none;border-radius:10px;font-weight:bold;margin-top:8px;cursor:pointer;display:block;text-align:center;text-decoration:none;box-sizing:border-box}
+.btn-bleu{background:#1976d2}.btn-noir{background:#1e293b}.btn-orange{background:#ea580c}.btn-vert{background:#16a34a}
+.result{background:#f1f5f9;padding:15px;border-radius:10px;margin-top:15px;border-left:5px solid #1976d2;color:#333}
+.alert-vol{background:#fee2e2;border-left:5px solid #ef4444;padding:12px;border-radius:8px;margin-top:10px;display:none;color:#991b1b}
+.ok-vol{background:#dcfce7;border-left:5px solid #22c55e;padding:12px;border-radius:8px;margin-top:10px;display:none;color:#14532d}
+.price{font-size:32px;font-weight:bold;color:#16a34a;text-align:center}
+</style></head><body>
+<div class="hero">
+<h1>🚚 FLEET RDC PRO</h1>
+<p>Stop au vol de carburant à Kinshasa</p>
+<p style="background:#fee2e2;color:#ef4444;padding:8px;border-radius:20px;display:inline-block;font-size:12px;font-weight:bold">🚨 1 camion = 300$ volés / mois</p>
+<div class="card" style="text-align:left">
+<h3>Pour patrons avec 3+ camions</h3>
+<p>❌ 900$ à 1500$ perdus / mois</p>
+<p>✅ Calcul Théorique vs Déclaré<br>✅ Alerte VOL auto<br>✅ Rapport PDF Patron</p>
+<div style="background:#f1f5f9;padding:10px;border-radius:10px;text-align:center"><div class="price">150$ / mois</div><small>Essai 7 jours gratuit</small></div>
+<a href="#app" class="btn btn-vert">👇 UTILISER L'APP MAINTENANT</a>
+</div>
+</div>
+
+<div id="app" class="card">
+<h2 style="text-align:center;margin:0;color:#0f172a">⚙️ APP GESTION</h2>
+<label>🏢 Camion</label><select id="camionSelect"></select>
+<button class="btn btn-noir" style="padding:8px;font-size:13px" onclick="ajouterCamion()">+ Nouveau camion</button><hr>
+<label>📦 Client</label><input id="client" placeholder="Dépôt Limete">
+<label>📏 Distance (km)</label><input id="km" type="number" placeholder="45">
 <label>⛽ Conso théorique (L/100km)</label><input id="conso" type="number" value="28">
-<label>⛽ Carburant déclaré par chauffeur (L)</label><input id="carbDeclare" type="number" placeholder="Ex: 20">
+<label>⛽ Carburant déclaré (L)</label><input id="carbDeclare" type="number" placeholder="20">
 <label>💰 Prix 1L (FC)</label><input id="prix1L" type="number" value="3500">
-<label>💵 Facturation livraison (FC)</label><input id="prixCourse" type="number" placeholder="Ex: 250000">
-<label>🕒 Km compteur départ</label><input id="kmDepart" type="number" placeholder="Ex: 45200">
-<label>🌙 Km compteur arrivée</label><input id="kmArrivee" type="number" placeholder="Ex: 45350">
-<button class="btn btn-bleu" onclick="calculer()">🔍 ANALYSER LIVRAISON + CARBURANT</button>
+<label>💵 Facturation (FC)</label><input id="prixCourse" type="number" placeholder="250000">
+<label>🕒 Km départ</label><input id="kmDepart" type="number" placeholder="45200">
+<label>🌙 Km arrivée</label><input id="kmArrivee" type="number" placeholder="45350">
+<button class="btn btn-bleu" onclick="calculer()">🔍 ANALYSER</button>
 <div id="resultat" class="result" style="display:none"><p id="rCarb"></p><p id="rCout"></p><p id="rBenef"></p><div id="alertVol" class="alert-vol"></div><div id="okVol" class="ok-vol"></div><p id="rKmJour" style="font-weight:bold"></p></div>
-<button id="btnWa" class="btn" style="display:none;background:#25D366" onclick="envoyerWA()">📲 Envoyer Rapport WhatsApp au Patron</button>
+<button id="btnWa" class="btn" style="display:none;background:#25D366" onclick="envoyerWA()">📲 WhatsApp Patron</button>
 <button id="btnSave" class="btn btn-orange" style="display:none" onclick="sauvegarderCourse()">💾 Enregistrer</button>
-<hr><h3 style="font-size:14px">📊 Journal Fleet du Jour</h3><div id="journal" style="font-size:13px;background:#fffbeb;padding:10px;border-radius:8px">Aucune course</div>
-<button class="btn btn-noir" onclick="genererPDF()">📄 Générer Rapport Patron</button>
+<hr><h3 style="font-size:14px;color:#0f172a">📊 Journal du Jour</h3><div id="journal" style="font-size:13px;background:#fffbeb;padding:10px;border-radius:8px;color:#333">Aucune course</div>
+<button class="btn btn-noir" onclick="genererPDF()">📄 Générer Rapport</button>
 </div>
 <script>
 let camions=JSON.parse(localStorage.getItem('fleet_camions')||'["Camion 01 - HINO","Camion 02 - FUSO"]');
@@ -58,13 +66,11 @@ document.getElementById('rKmJour').innerText=`📏 Km jour: ${kmJour} km`;
 let aDiv=document.getElementById('alertVol');let oDiv=document.getElementById('okVol');aDiv.style.display='none';oDiv.style.display='none';
 let diff=0;if(carbDeclare){diff=carbDeclare-litresTheorique;if(diff>3){aDiv.innerHTML=`🚨 <b>ALERTE VOL</b><br>Surplus: +${diff.toFixed(1)}L = ${(diff*prix1L).toFixed(0)} FC`;aDiv.style.display='block';}else{oDiv.innerHTML=`✅ Carburant OK`;oDiv.style.display='block';}}
 dernierCalcul={camion,client,km,litresTheorique,carbDeclare,coutTheorique,benef,kmJour,date:new Date().toLocaleString('fr-FR')};
-dernierRecu=`🚚 *FLEET RDC - RAPPORT*\n🏢 ${camion}\n📦 ${client}\n📏 ${km} km (Jour: ${kmJour} km)\n⛽ Theo: ${litresTheorique.toFixed(1)}L / Decl: ${carbDeclare||0}L\n💰 Benef: ${benef.toFixed(0)} FC\n${diff>3?'🚨 ALERTE +'+diff.toFixed(1)+'L suspect':'✅ OK'}`;
+dernierRecu=`🚚 *FLEET RDC*\n🏢 ${camion}\n📦 ${client}\n📏 ${km} km (Jour: ${kmJour} km)\n⛽ Theo: ${litresTheorique.toFixed(1)}L / Decl: ${carbDeclare||0}L\n💰 Benef: ${benef.toFixed(0)} FC\n${diff>3?'🚨 ALERTE +'+diff.toFixed(1)+'L':''}`;
 document.getElementById('resultat').style.display='block';document.getElementById('btnWa').style.display='block';document.getElementById('btnSave').style.display='block';
 }
 function sauvegarderCourse(){if(!dernierCalcul)return;courses.push(dernierCalcul);localStorage.setItem('fleet_courses',JSON.stringify(courses));afficherJournal();alert('Enregistré!');}
 function afficherJournal(){if(courses.length==0){document.getElementById('journal').innerHTML='Aucune course';return;}let tKm=courses.reduce((s,c)=>s+c.km,0);let tBen=courses.reduce((s,c)=>s+c.benef,0);let tVol=courses.reduce((s,c)=>s+Math.max(0,(c.carbDeclare||0)-c.litresTheorique),0);let h=`<b>${courses.length} livraisons</b><br>${tKm} km | ${tBen.toFixed(0)} FC | Vol: ${tVol.toFixed(1)}L<br><br>`;courses.slice(-5).forEach(c=>{h+=`• ${c.camion} - ${c.km}km<br>`});document.getElementById('journal').innerHTML=h;}
 afficherJournal();function envoyerWA(){window.open("https://wa.me/?text="+encodeURIComponent(dernierRecu),"_blank");}
-function genererPDF(){if(courses.length==0){alert("Pas de données");return;}let t=`RAPPORT FLEET RDC\n`+courses.map(c=>`${c.date} | ${c.camion} | ${c.km}km | Benef ${c.benef.toFixed(0)}`).join('\n');let b=new Blob([t],{type:'text/plain'});let u=URL.createObjectURL(b);let a=document.createElement('a');a.href=u;a.download='Rapport_Fleet.txt';a.click();}
-</script>
-</body>
-</html>
+function genererPDF(){if(courses.length==0){alert("Pas de données - Enregistre d'abord une course");return;}let t=`RAPPORT FLEET RDC\n`+courses.map(c=>`${c.date} | ${c.camion} | ${c.km}km | Benef ${c.benef.toFixed(0)}`).join('\n');let b=new Blob([t],{type:'text/plain'});let u=URL.createObjectURL(b);let a=document.createElement('a');a.href=u;a.download='Rapport_Fleet.txt';a.click();}
+</script></body></html>
