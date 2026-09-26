@@ -1,90 +1,108 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FLEET RDC PRO</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-body{font-family:Arial;margin:0;background:#0f172a;color:white}
-.hero{padding:30px 20px;text-align:center;background:linear-gradient(135deg,#0f172a,#1e40af)}
-.card{background:white;color:#1e293b;padding:20px;border-radius:15px;max-width:450px;margin:20px auto}
-.logo{width:70px;height:70px;background:#16a34a;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:35px;margin:0 auto 10px auto}
-input,select{width:100%;padding:12px;margin:6px 0 12px 0;border-radius:10px;border:1px solid #ccc;box-sizing:border-box}
-.btn{width:100%;padding:14px;color:white;border:none;border-radius:10px;font-weight:bold;margin-top:8px;cursor:pointer;display:block;text-align:center;text-decoration:none;box-sizing:border-box}
-.btn-bleu{background:#1976d2}.btn-noir{background:#1e293b}.btn-orange{background:#ea580c}.btn-vert{background:#16a34a}
-.result{background:#f1f5f9;padding:15px;border-radius:10px;margin-top:15px;border-left:5px solid #1976d2;color:#333}
-.alert-vol{background:#fee2e2;border-left:5px solid #ef4444;padding:12px;border-radius:8px;margin-top:10px;display:none;color:#991b1b}
-.ok-vol{background:#dcfce7;border-left:5px solid #22c55e;padding:12px;border-radius:8px;margin-top:10px;display:none;color:#14532d}
-.price{font-size:32px;font-weight:bold;color:#16a34a;text-align:center}
-</style></head><body>
-<div class="hero">
-<div class="logo">🚚</div>
-<h1 style="margin:0">FLEET RDC PRO</h1>
-<p>Stop au vol de carburant à Kinshasa</p>
-<p style="background:#fee2e2;color:#ef4444;padding:8px;border-radius:20px;display:inline-block;font-size:12px;font-weight:bold">🚨 1 camion = 300$ volés / mois</p>
-<div class="card" style="text-align:left">
-<h3 style="margin-top:0">Pour patrons avec 3+ camions</h3>
-<p>❌ Vous perdez <b>900$ à 1500$</b> par mois</p>
-<p>❌ "60L mis" mais conso réelle 42L</p>
-<hr>
-<p>✅ Calcul Théorique vs Déclaré<br>✅ Alerte VOL auto<br>✅ Rapport PDF Officiel avec nom entreprise</p>
-<div style="background:#f1f5f9;padding:10px;border-radius:10px;text-align:center"><div class="price">150$ / mois</div><small>7 jours d'essai gratuit - Kinshasa</small></div>
-<a href="#app" class="btn btn-vert">👇 UTILISER L'APP MAINTENANT</a>
-<p style="font-size:10px;text-align:center;color:#64748b">Créé par Victor yangama - Kinshasa</p>
-</div>
+body{font-family:Arial,sans-serif;margin:0;padding:20px;background:#0f172a;color:white;text-align:center}
+h1{color:#38bdf8}
+.card{background:white;color:#0f172a;padding:20px;border-radius:12px;max-width:500px;margin:20px auto;box-shadow:0 4px 20px rgba(0,0,0,0.3);text-align:left}
+label{font-weight:bold;display:block;margin-top:12px}
+input,select{width:100%;padding:12px;margin:6px 0 10px 0;border-radius:8px;border:1px solid #ccc;box-sizing:border-box}
+.btn-bleu{background:#0f172a;color:white;padding:14px;width:100%;border:none;border-radius:8px;font-weight:bold;margin-top:10px;cursor:pointer}
+.btn-vert{background:#16a34a;color:white;padding:12px;width:100%;border:none;border-radius:8px;margin-top:8px;cursor:pointer}
+.result{background:#f1f5f9;padding:15px;border-radius:8px;margin-top:15px;color:#0f172a}
+.alert-vol{background:#fde2e2;border-left:5px solid #ef4444;padding:12px;margin-top:10px;border-radius:6px}
+.alert-ok{background:#dcfce7;border-left:5px solid #22c55e;padding:12px;margin-top:10px;border-radius:6px}
+.type-selector{display:flex;gap:10px;margin:10px 0}
+.type-btn{flex:1;padding:10px;border:2px solid #0f172a;border-radius:8px;background:white;cursor:pointer;font-weight:bold}
+.type-btn.active{background:#0f172a;color:white}
+.small{font-size:12px;color:#64748b}
+</style>
+</head>
+<body>
+<h1>FLEET RDC PRO</h1>
+<p>Stop au vol de carburant à Kinshasa!</p>
+<p style="color:#38bdf8">Vous perdez 900$ à 1500$ par mois par camion</p>
+
+<div class="card">
+<h3>Calcul Théorique vs Déclaré</h3>
+<label>Nom Entreprise Client</label>
+<input id="entreprise" placeholder="Ex: TRANSCO SARL">
+<label>Camion</label>
+<select id="camion"><option>Camion 1</option><option>Camion 2</option><option>Camion 3</option></select>
+
+<label>Type de Trajet - NOUVEAU!</label>
+<div class="type-selector">
+<button class="type-btn active" id="btnVille" onclick="setType('ville')">Ville Kin (+30%)</button>
+<button class="type-btn" id="btnProvince" onclick="setType('province')">Province Matadi</button>
 </div>
 
-<div id="app" class="card">
-<h2 style="text-align:center;margin:0;color:#0f172a">⚙️ APP GESTION</h2>
-<label>🏢 Nom Entreprise Client (pour PDF)</label><input id="nomEntreprise" placeholder="Ex: ETS MUKENDI LOGISTIQUE">
-<label>🏢 Camion</label><select id="camionSelect"></select>
-<button class="btn btn-noir" style="padding:8px;font-size:13px" onclick="ajouterCamion()">+ Nouveau camion</button><hr>
-<label>📦 Client / Destination</label><input id="client" placeholder="Dépôt Limete">
-<label>📏 Distance (km)</label><input id="km" type="number" placeholder="45">
-<label>⛽ Conso (L/100km)</label><input id="conso" type="number" value="28">
-<label>⛽ Carburant déclaré (L)</label><input id="carbDeclare" type="number" placeholder="60">
-<label>💰 Prix 1L (FC)</label><input id="prix1L" type="number" value="3500">
-<label>💵 Facturation (FC)</label><input id="prixCourse" type="number" placeholder="250000">
-<label>🕒 Km départ</label><input id="kmDepart" type="number" placeholder="45200">
-<label>🌙 Km arrivée</label><input id="kmArrivee" type="number" placeholder="45350">
-<button class="btn btn-bleu" onclick="calculer()">🔍 ANALYSER LIVRAISON + CARBURANT</button>
-<div id="resultat" class="result" style="display:none"><p id="rCarb"></p><p id="rCout"></p><p id="rBenef"></p><div id="alertVol" class="alert-vol"></div><div id="okVol" class="ok-vol"></div><p id="rKmJour" style="font-weight:bold"></p></div>
-<button id="btnWa" class="btn" style="display:none;background:#25D366" onclick="envoyerWA()">📲 WhatsApp Patron</button>
-<button id="btnSave" class="btn btn-orange" style="display:none" onclick="sauvegarderCourse()">💾 Enregistrer</button>
-<hr><h3 style="font-size:14px;color:#0f172a">📊 Journal Fleet du Jour</h3><div id="journal" style="font-size:13px;background:#fffbeb;padding:10px;border-radius:8px;color:#333">Aucune course</div>
-<button class="btn btn-noir" onclick="genererPDF()">📄 Générer Rapport PDF Patron</button>
+<div id="chargeDiv" style="display:none">
+<label>Charge</label>
+<div class="type-selector">
+<button class="type-btn active" id="btnCharge" onclick="setCharge('charge')">Chargé (30T)</button>
+<button class="type-btn" id="btnVide" onclick="setCharge('vide')">Vide (retour)</button>
 </div>
+<p class="small">Vide = consomme 30% de moins, mais vole plus!</p>
+</div>
+
+<label>Client / Destination</label>
+<input id="client" placeholder="Ex: Limete -> Matadi">
+<label>Distance (km)</label>
+<input id="kmDepart" type="number" value="45">
+<label>Conso (L/100km) base</label>
+<input id="conso" type="number" value="28">
+<label>Carburant déclaré (L)</label>
+<input id="carbDeclare" type="number" placeholder="Ex: 180">
+<label>Prix Carburant (FC/L)</label>
+<input id="prixCarb" type="number" value="3500">
+<label>Facturation (FC)</label>
+<input id="facturation" type="number" placeholder="150000">
+
+<button class="btn-bleu" onclick="calculer()">CALCULER - DÉTECTER VOL</button>
+<div id="result" class="result" style="display:none"></div>
+<button class="btn-vert" onclick="sauvegarderCourse()" id="btnSave" style="display:none">Sauvegarder</button>
+<button class="btn-vert" onclick="genererPDF()" style="background:#0f172a">Rapport PDF pour patron</button>
+</div>
+
+<div class="card">
+<h4>Journal du jour - <span id="dateJour"></span></h4>
+<div id="journal"></div>
+<p><b>Total Vol du jour:</b> <span id="totalVol">0 FC</span></p>
+</div>
+
 <script>
-let camions=JSON.parse(localStorage.getItem('fleet_camions')||'["Camion 01 - HINO","Camion 02 - FUSO"]');
-let courses=JSON.parse(localStorage.getItem('fleet_courses')||'[]');
-function initSelect(){let s=document.getElementById('camionSelect');s.innerHTML='';camions.forEach(c=>{let o=document.createElement('option');o.value=c;o.innerText=c;s.appendChild(o);});}
-function ajouterCamion(){let n=prompt("Nom nouveau camion");if(n){camions.push(n);localStorage.setItem('fleet_camions',JSON.stringify(camions));initSelect();}}
-initSelect();let dernierRecu="";let dernierCalcul=null;
+let typeTrajet='ville'; let chargeType='charge';
+let courses=JSON.parse(localStorage.getItem('fleetCourses')||'[]');
+let dernierCalcul=null;
+document.getElementById('dateJour').innerText=new Date().toLocaleDateString('fr-FR');
+function setType(t){typeTrajet=t; document.getElementById('btnVille').classList.toggle('active',t==='ville'); document.getElementById('btnProvince').classList.toggle('active',t==='province'); document.getElementById('chargeDiv').style.display=t==='province'?'block':'none';}
+function setCharge(c){chargeType=c; document.getElementById('btnCharge').classList.toggle('active',c==='charge'); document.getElementById('btnVide').classList.toggle('active',c==='vide');}
 function calculer(){
-let camion=document.getElementById('camionSelect').value;let client=document.getElementById('client').value||'Client';
-let km=parseFloat(document.getElementById('km').value);let conso=parseFloat(document.getElementById('conso').value);
-let carbDeclare=parseFloat(document.getElementById('carbDeclare').value);let prix1L=parseFloat(document.getElementById('prix1L').value);
-let prixCourse=parseFloat(document.getElementById('prixCourse').value);let kmDep=parseFloat(document.getElementById('kmDepart').value);
-let kmArr=parseFloat(document.getElementById('kmArrivee').value);
-if(!km||!prixCourse){alert("Remplis Distance et Facturation");return;}
-let litresTheorique=(km*conso)/100;let coutTheorique=litresTheorique*prix1L;let benef=prixCourse-coutTheorique;
-let kmJour=(kmDep&&kmArr)?kmArr-kmDep:km;
-document.getElementById('rCarb').innerText=`⛽ Théorique: ${litresTheorique.toFixed(1)}L | Déclaré: ${carbDeclare||0}L`;
-document.getElementById('rCout').innerText=`💰 Coût: ${coutTheorique.toFixed(0)} FC`;document.getElementById('rBenef').innerText=`📈 Bénéfice: ${benef.toFixed(0)} FC`;
-document.getElementById('rKmJour').innerText=`📏 Km jour: ${kmJour} km`;
-let aDiv=document.getElementById('alertVol');let oDiv=document.getElementById('okVol');aDiv.style.display='none';oDiv.style.display='none';
-let diff=0;if(carbDeclare){diff=carbDeclare-litresTheorique;if(diff>3){aDiv.innerHTML=`🚨 <b>ALERTE VOL</b><br>Surplus: +${diff.toFixed(1)}L = ${(diff*prix1L).toFixed(0)} FC`;aDiv.style.display='block';}else{oDiv.innerHTML=`✅ Carburant OK - Économie: ${(litresTheorique-carbDeclare).toFixed(1)}L`;oDiv.style.display='block';}}
-dernierCalcul={camion,client,km,litresTheorique,carbDeclare,coutTheorique,benef,kmJour,diff,date:new Date().toLocaleString('fr-FR')};
-dernierRecu=`🚚 *FLEET RDC PRO*\n🏢 ${camion}\n📦 ${client}\n📏 ${km} km (Jour: ${kmJour} km)\n⛽ Theo: ${litresTheorique.toFixed(1)}L / Decl: ${carbDeclare||0}L\n💰 Benef: ${benef.toFixed(0)} FC\n${diff>3?'🚨 ALERTE +'+diff.toFixed(1)+'L':''}`;
-document.getElementById('resultat').style.display='block';document.getElementById('btnWa').style.display='block';document.getElementById('btnSave').style.display='block';
+ let km=parseFloat(document.getElementById('kmDepart').value);
+ let consoBase=parseFloat(document.getElementById('conso').value);
+ let carbDeclare=parseFloat(document.getElementById('carbDeclare').value);
+ let prixCarb=parseFloat(document.getElementById('prixCarb').value);
+ let fact=parseFloat(document.getElementById('facturation').value)||0;
+ if(!km||!consoBase||!carbDeclare){alert('Remplis distance, conso et déclaré');return;}
+ let litresTheorique; let explication;
+ if(typeTrajet==='ville'){litresTheorique=(km*consoBase/100)*1.30; explication=`Base: ${(km*consoBase/100).toFixed(1)}L +30% bouchon Kin = ${litresTheorique.toFixed(1)}L`;}
+ else{if(chargeType==='charge'){litresTheorique=(km*consoBase/100)*1.35; explication=`Base: ${(km*consoBase/100).toFixed(1)}L +35% collines+route+charge = ${litresTheorique.toFixed(1)}L`;}else{litresTheorique=(km*20/100)*1.15; explication=`Retour VIDE: Base 20L/100 +15% = ${litresTheorique.toFixed(1)}L - Doit consommer MOINS vide!`;}}
+ let diff=carbDeclare-litresTheorique; let benef=fact-(carbDeclare*prixCarb); let alerte='';
+ if(diff>5){let volFC=diff*prixCarb; alerte=`<div class="alert-vol">VOL DETECTE: ${diff.toFixed(1)}L = ${volFC.toFixed(0)} FC!<br><small>${explication}</small></div>`;}
+ else if(diff<-5){alerte=`<div class="alert-ok">ECONOMIE: ${Math.abs(diff).toFixed(1)}L - Honnete!</div>`;}
+ else{alerte=`<div class="alert-ok">CONSO NORMALE: ${explication}</div>`;}
+ document.getElementById('result').innerHTML=`<b>Theorique:</b> ${litresTheorique.toFixed(1)}L<br><b>Declare:</b> ${carbDeclare}L<br><b>Diff:</b> ${diff.toFixed(1)}L<br><b>Benefice:</b> ${benef.toFixed(0)} FC<br>${alerte}`;
+ document.getElementById('result').style.display='block'; document.getElementById('btnSave').style.display='block';
+ dernierCalcul={km,consoBase,carbDeclare,litresTheorique,diff,prixCarb,benef,typeTrajet,chargeType,client:document.getElementById('client').value,camion:document.getElementById('camion').value,date:new Date().toLocaleString('fr-FR')};
 }
-function sauvegarderCourse(){if(!dernierCalcul)return;courses.push(dernierCalcul);localStorage.setItem('fleet_courses',JSON.stringify(courses));afficherJournal();alert('Course enregistrée dans Journal!');}
-function afficherJournal(){if(courses.length==0){document.getElementById('journal').innerHTML='Aucune course';return;}let tKm=courses.reduce((s,c)=>s+c.km,0);let tBen=courses.reduce((s,c)=>s+c.benef,0);let tVol=courses.reduce((s,c)=>s+Math.max(0,(c.carbDeclare||0)-c.litresTheorique),0);let h=`<b>${courses.length} livraisons - ${tKm}km</b><br>Bénéf: ${tBen.toFixed(0)} FC<br><b style="color:${tVol>0?'red':'green'}">Total Vol: ${tVol.toFixed(1)}L</b><br><br>`;courses.slice(-5).forEach(c=>{h+=`• ${c.camion} - ${c.km}km ${c.diff>3?'🚨':''}<br>`});document.getElementById('journal').innerHTML=h;}
-afficherJournal();function envoyerWA(){window.open("https://wa.me/?text="+encodeURIComponent(dernierRecu),"_blank");}
-function genererPDF(){
-if(courses.length==0){alert("Pas de données - Enregistre d'abord une course");return;}
-const { jsPDF } = window.jspdf; const doc = new jsPDF();
-let entreprise = document.getElementById('nomEntreprise').value || "ENTREPRISE CLIENT";
-doc.setFontSize(16); doc.text("FLEET RDC PRO - RAPPORT OFFICIEL",10,15);
-doc.setFontSize(11); doc.text(`Entreprise: ${entreprise}`,10,25); doc.text(`Date: ${new Date().toLocaleDateString('fr-FR')}`,10,31); doc.text(`Généré par Victor yangama`,10,37);
-doc.line(10,40,200,40);
-let y=50; let tKm=0,tBen=0,tVol=0;
-courses.forEach((c,i)=>{doc.setFontSize(9); doc.text(`${i+1}. ${c.date} | ${c.camion} | ${c.client} | ${c.km}km | Theo ${c.litresThe
+function sauvegarderCourse(){if(!dernierCalcul)return; courses.push(dernierCalcul); localStorage.setItem('fleetCourses',JSON.stringify(courses)); afficherJournal(); alert('Sauvegardé!');}
+function afficherJournal(){let html=''; let total=0; courses.forEach(c=>{let vol=c.diff>0?c.diff*c.prixCarb:0; total+=vol; html+=`<div style="border-bottom:1px solid #ddd;padding:6px 0;font-size:13px">${c.date} - ${c.camion} - ${c.client||c.km+'km'} - ${c.typeTrajet}/${c.chargeType} - Vol: ${c.diff.toFixed(1)}L (${vol.toFixed(0)}FC)</div>`;}); document.getElementById('journal').innerHTML=html||'Aucune course'; document.getElementById('totalVol').innerText=total.toFixed(0)+' FC';}
+afficherJournal();
+function genererPDF(){const {jsPDF}=window.jspdf; const doc=new jsPDF(); let entreprise=document.getElementById('entreprise').value||'FLEET RDC PRO'; doc.setFontSize(16); doc.text(entreprise+' - RAPPORT OFFICIEL',10,20); doc.setFontSize(10); doc.text('Date: '+new Date().toLocaleString('fr-FR'),10,30); let y=50; if(courses.length===0&&dernierCalcul){courses=[dernierCalcul];} courses.forEach((c,i)=>{doc.text(`${i+1}. ${c.camion} | ${c.client} | ${c.km}km | Theo:${c.litresTheorique.toFixed(1)}L Decl:${c.carbDeclare}L | Diff:${c.diff.toFixed(1)}L | ${c.typeTrajet} ${c.chargeType}`,10,y); y+=7; if(y>280){doc.addPage(); y=20;}}); let totalVol=courses.reduce((s,c)=>s+(c.diff>0?c.diff*c.prixCarb:0),0); doc.setFontSize(14); doc.text(`TOTAL VOL: ${totalVol.toFixed(0)} FC`,10,y+10); doc.save(`Rapport_${entreprise}.pdf`);}
+</script>
+</body>
+</html>
