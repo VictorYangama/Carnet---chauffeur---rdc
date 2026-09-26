@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FLEET RDC PRO</title>
+<title>FLEET RDC PRO V3</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 body{font-family:Arial,sans-serif;margin:0;padding:20px;background:#0f172a;color:white;text-align:center}
 h1{color:#38bdf8}
-.card{background:white;color:#0f172a;padding:20px;border-radius:12px;max-width:500px;margin:20px auto;box-shadow:0 4px 20px rgba(0,0,0,0.3);text-align:left}
+.card{background:white;color:#0f172a;padding:20px;border-radius:12px;max-width:500px;margin:20px auto;text-align:left}
 label{font-weight:bold;display:block;margin-top:12px}
 input,select{width:100%;padding:12px;margin:6px 0 10px 0;border-radius:8px;border:1px solid #ccc;box-sizing:border-box}
 .btn-bleu{background:#0f172a;color:white;padding:14px;width:100%;border:none;border-radius:8px;font-weight:bold;margin-top:10px;cursor:pointer}
@@ -19,66 +19,77 @@ input,select{width:100%;padding:12px;margin:6px 0 10px 0;border-radius:8px;borde
 .type-selector{display:flex;gap:10px;margin:10px 0}
 .type-btn{flex:1;padding:10px;border:2px solid #0f172a;border-radius:8px;background:white;cursor:pointer;font-weight:bold}
 .type-btn.active{background:#0f172a;color:white}
-.small{font-size:12px;color:#64748b}
+.small{font-size:11px;color:#64748b}
 </style>
 </head>
 <body>
-<h1>FLEET RDC PRO</h1>
-<p>Stop au vol de carburant à Kinshasa!</p>
-<p style="color:#38bdf8">Vous perdez 900$ à 1500$ par mois par camion</p>
-
+<h1>FLEET RDC PRO V3</h1>
+<p>Stop au vol - Version Pro Kinshasa</p>
 <div class="card">
-<h3>Calcul Théorique vs Déclaré</h3>
 <label>Nom Entreprise Client</label>
 <input id="entreprise" placeholder="Ex: TRANSCO SARL">
-<label>Camion</label>
-<select id="camion"><option>Camion 1</option><option>Camion 2</option><option>Camion 3</option></select>
-
-<label>Type de Trajet - NOUVEAU!</label>
+<label>Type de Camion - NOUVEAU V3!</label>
+<select id="typeCamion" onchange="setCamionType()">
+<option value="28">HOWO Benne 20T (28L/100) - Le plus courant à Kin</option>
+<option value="32">Shacman Benne 25T (32L/100)</option>
+<option value="35">Mercedes Actros Remorque 40T (35L/100)</option>
+<option value="38">Volvo FH 40T Chargé lourd (38L/100)</option>
+<option value="30">Vieux Camion +10 ans HOWO (30L/100 +15% usure)</option>
+<option value="25">Petit Camion 10T Canter (25L/100)</option>
+<option value="custom">Autre - Saisie manuelle</option>
+</select>
+<p class="small" id="infoCamion">HOWO Benne: 28L base +30% bouchon = 36,4L réel en ville</p>
+<label>Camion / Plaque</label>
+<select id="camion"><option>Camion 1 - HOWO 1234</option><option>Camion 2 - ACTROS 5678</option><option>Camion 3 - VOLVO 9012</option></select>
+<label>Type de Trajet</label>
 <div class="type-selector">
 <button class="type-btn active" id="btnVille" onclick="setType('ville')">Ville Kin (+30%)</button>
-<button class="type-btn" id="btnProvince" onclick="setType('province')">Province Matadi</button>
+<button class="type-btn" id="btnProvince" onclick="setType('province')">Province Matadi (+35%)</button>
 </div>
-
 <div id="chargeDiv" style="display:none">
 <label>Charge</label>
 <div class="type-selector">
-<button class="type-btn active" id="btnCharge" onclick="setCharge('charge')">Chargé (30T)</button>
+<button class="type-btn active" id="btnCharge" onclick="setCharge('charge')">Chargé</button>
 <button class="type-btn" id="btnVide" onclick="setCharge('vide')">Vide (retour)</button>
 </div>
-<p class="small">Vide = consomme 30% de moins, mais vole plus!</p>
 </div>
-
-<label>Client / Destination</label>
-<input id="client" placeholder="Ex: Limete -> Matadi">
+<label>Destination</label>
+<input id="client" placeholder="Limete -> Matadi" value="Kinshasa-Matadi">
 <label>Distance (km)</label>
-<input id="kmDepart" type="number" value="45">
-<label>Conso (L/100km) base</label>
+<input id="kmDepart" type="number" value="350">
+<label>Conso base (L/100km) - auto-rempli</label>
 <input id="conso" type="number" value="28">
 <label>Carburant déclaré (L)</label>
-<input id="carbDeclare" type="number" placeholder="Ex: 180">
+<input id="carbDeclare" type="number" value="180">
 <label>Prix Carburant (FC/L)</label>
 <input id="prixCarb" type="number" value="3500">
-<label>Facturation (FC)</label>
-<input id="facturation" type="number" placeholder="150000">
-
+<label>Facturation course (FC)</label>
+<input id="facturation" type="number" value="2500000">
 <button class="btn-bleu" onclick="calculer()">CALCULER - DÉTECTER VOL</button>
 <div id="result" class="result" style="display:none"></div>
-<button class="btn-vert" onclick="sauvegarderCourse()" id="btnSave" style="display:none">Sauvegarder</button>
-<button class="btn-vert" onclick="genererPDF()" style="background:#0f172a">Rapport PDF pour patron</button>
+<button class="btn-vert" onclick="sauvegarderCourse()" id="btnSave" style="display:none">Sauvegarder course</button>
+<button class="btn-vert" onclick="genererPDF()" style="background:#0f172a">Rapport PDF Officiel</button>
 </div>
-
 <div class="card">
-<h4>Journal du jour - <span id="dateJour"></span></h4>
+<h4>Journal - <span id="dateJour"></span></h4>
 <div id="journal"></div>
-<p><b>Total Vol du jour:</b> <span id="totalVol">0 FC</span></p>
+<p><b>Total Vol:</b> <span id="totalVol">0 FC</span></p>
 </div>
-
 <script>
 let typeTrajet='ville'; let chargeType='charge';
 let courses=JSON.parse(localStorage.getItem('fleetCourses')||'[]');
 let dernierCalcul=null;
 document.getElementById('dateJour').innerText=new Date().toLocaleDateString('fr-FR');
+function setCamionType(){
+ let sel=document.getElementById('typeCamion');
+ let val=sel.value;
+ let info=document.getElementById('infoCamion');
+ if(val==='custom'){ info.innerText='Saisie manuelle: Mets ta conso réelle autoroute'; return; }
+ document.getElementById('conso').value=val;
+ let ville=(parseFloat(val)*1.3).toFixed(1);
+ let prov=(parseFloat(val)*1.35).toFixed(1);
+ info.innerText=sel.options[sel.selectedIndex].text.split('(')[0] + `: ${val}L base => ${ville}L en ville Kin, ${prov}L en province Matadi`;
+}
 function setType(t){typeTrajet=t; document.getElementById('btnVille').classList.toggle('active',t==='ville'); document.getElementById('btnProvince').classList.toggle('active',t==='province'); document.getElementById('chargeDiv').style.display=t==='province'?'block':'none';}
 function setCharge(c){chargeType=c; document.getElementById('btnCharge').classList.toggle('active',c==='charge'); document.getElementById('btnVide').classList.toggle('active',c==='vide');}
 function calculer(){
@@ -87,22 +98,23 @@ function calculer(){
  let carbDeclare=parseFloat(document.getElementById('carbDeclare').value);
  let prixCarb=parseFloat(document.getElementById('prixCarb').value);
  let fact=parseFloat(document.getElementById('facturation').value)||0;
- if(!km||!consoBase||!carbDeclare){alert('Remplis distance, conso et déclaré');return;}
- let litresTheorique; let explication;
- if(typeTrajet==='ville'){litresTheorique=(km*consoBase/100)*1.30; explication=`Base: ${(km*consoBase/100).toFixed(1)}L +30% bouchon Kin = ${litresTheorique.toFixed(1)}L`;}
- else{if(chargeType==='charge'){litresTheorique=(km*consoBase/100)*1.35; explication=`Base: ${(km*consoBase/100).toFixed(1)}L +35% collines+route+charge = ${litresTheorique.toFixed(1)}L`;}else{litresTheorique=(km*20/100)*1.15; explication=`Retour VIDE: Base 20L/100 +15% = ${litresTheorique.toFixed(1)}L - Doit consommer MOINS vide!`;}}
+ if(!km||!consoBase||!carbDeclare){alert('Remplis tout');return;}
+ let litresTheorique; let explication; let camionNom=document.getElementById('typeCamion').options[document.getElementById('typeCamion').selectedIndex].text;
+ if(typeTrajet==='ville'){litresTheorique=(km*consoBase/100)*1.30; explication=`${camionNom} - Base ${(km*consoBase/100).toFixed(1)}L +30% bouchon Kin = ${litresTheorique.toFixed(1)}L`;}
+ else{if(chargeType==='charge'){litresTheorique=(km*consoBase/100)*1.35; explication=`${camionNom} - Base ${(km*consoBase/100).toFixed(1)}L +35% collines + charge = ${litresTheorique.toFixed(1)}L`;}else{litresTheorique=(km*20/100)*1.15; explication=`Retour VIDE: Base 20L/100 +15% = ${litresTheorique.toFixed(1)}L - Vide doit consommer MOINS!`;}}
  let diff=carbDeclare-litresTheorique; let benef=fact-(carbDeclare*prixCarb); let alerte='';
- if(diff>5){let volFC=diff*prixCarb; alerte=`<div class="alert-vol">VOL DETECTE: ${diff.toFixed(1)}L = ${volFC.toFixed(0)} FC!<br><small>${explication}</small></div>`;}
- else if(diff<-5){alerte=`<div class="alert-ok">ECONOMIE: ${Math.abs(diff).toFixed(1)}L - Honnete!</div>`;}
+ if(diff>5){alerte=`<div class="alert-vol">VOL DETECTE: ${diff.toFixed(1)}L = ${(diff*prixCarb).toFixed(0)} FC!<br><small>${explication}</small></div>`;}
+ else if(diff<-5){alerte=`<div class="alert-ok">ECONOMIE: ${Math.abs(diff).toFixed(1)}L</div>`;}
  else{alerte=`<div class="alert-ok">CONSO NORMALE: ${explication}</div>`;}
- document.getElementById('result').innerHTML=`<b>Theorique:</b> ${litresTheorique.toFixed(1)}L<br><b>Declare:</b> ${carbDeclare}L<br><b>Diff:</b> ${diff.toFixed(1)}L<br><b>Benefice:</b> ${benef.toFixed(0)} FC<br>${alerte}`;
+ document.getElementById('result').innerHTML=`<b>Theo:</b> ${litresTheorique.toFixed(1)}L<br><b>Declare:</b> ${carbDeclare}L<br><b>Diff:</b> ${diff.toFixed(1)}L<br><b>Benef:</b> ${benef.toFixed(0)} FC<br>${alerte}`;
  document.getElementById('result').style.display='block'; document.getElementById('btnSave').style.display='block';
- dernierCalcul={km,consoBase,carbDeclare,litresTheorique,diff,prixCarb,benef,typeTrajet,chargeType,client:document.getElementById('client').value,camion:document.getElementById('camion').value,date:new Date().toLocaleString('fr-FR')};
+ dernierCalcul={km,consoBase,carbDeclare,litresTheorique,diff,prixCarb,benef,typeTrajet,chargeType,client:document.getElementById('client').value,camion:document.getElementById('camion').value + ' - ' + camionNom, date:new Date().toLocaleString('fr-FR')};
 }
 function sauvegarderCourse(){if(!dernierCalcul)return; courses.push(dernierCalcul); localStorage.setItem('fleetCourses',JSON.stringify(courses)); afficherJournal(); alert('Sauvegardé!');}
-function afficherJournal(){let html=''; let total=0; courses.forEach(c=>{let vol=c.diff>0?c.diff*c.prixCarb:0; total+=vol; html+=`<div style="border-bottom:1px solid #ddd;padding:6px 0;font-size:13px">${c.date} - ${c.camion} - ${c.client||c.km+'km'} - ${c.typeTrajet}/${c.chargeType} - Vol: ${c.diff.toFixed(1)}L (${vol.toFixed(0)}FC)</div>`;}); document.getElementById('journal').innerHTML=html||'Aucune course'; document.getElementById('totalVol').innerText=total.toFixed(0)+' FC';}
+function afficherJournal(){let html=''; let total=0; courses.forEach(c=>{let vol=c.diff>0?c.diff*c.prixCarb:0; total+=vol; html+=`<div style="border-bottom:1px solid #ddd;padding:6px 0;font-size:12px">${c.date} - ${c.camion.split(' - ')[0]} - ${c.client} - ${c.diff.toFixed(1)}L (${vol.toFixed(0)}FC)</div>`;}); document.getElementById('journal').innerHTML=html||'Aucune course'; document.getElementById('totalVol').innerText=total.toFixed(0)+' FC';}
 afficherJournal();
-function genererPDF(){const {jsPDF}=window.jspdf; const doc=new jsPDF(); let entreprise=document.getElementById('entreprise').value||'FLEET RDC PRO'; doc.setFontSize(16); doc.text(entreprise+' - RAPPORT OFFICIEL',10,20); doc.setFontSize(10); doc.text('Date: '+new Date().toLocaleString('fr-FR'),10,30); let y=50; if(courses.length===0&&dernierCalcul){courses=[dernierCalcul];} courses.forEach((c,i)=>{doc.text(`${i+1}. ${c.camion} | ${c.client} | ${c.km}km | Theo:${c.litresTheorique.toFixed(1)}L Decl:${c.carbDeclare}L | Diff:${c.diff.toFixed(1)}L | ${c.typeTrajet} ${c.chargeType}`,10,y); y+=7; if(y>280){doc.addPage(); y=20;}}); let totalVol=courses.reduce((s,c)=>s+(c.diff>0?c.diff*c.prixCarb:0),0); doc.setFontSize(14); doc.text(`TOTAL VOL: ${totalVol.toFixed(0)} FC`,10,y+10); doc.save(`Rapport_${entreprise}.pdf`);}
+function genererPDF(){const {jsPDF}=window.jspdf; const doc=new jsPDF(); let entreprise=document.getElementById('entreprise').value||'FLEET RDC PRO'; doc.setFontSize(16); doc.text(entreprise+' - RAPPORT OFFICIEL V3',10,20); doc.setFontSize(10); doc.text('Date: '+new Date().toLocaleString('fr-FR'),10,30); let y=50; if(courses.length===0&&dernierCalcul){courses=[dernierCalcul];} courses.forEach((c,i)=>{doc.text(`${i+1}. ${c.camion} | ${c.client} | ${c.km}km | Theo:${c.litresTheorique.toFixed(1)}L Decl:${c.carbDeclare}L | Diff:${c.diff.toFixed(1)}L | ${c.typeTrajet}/${c.chargeType}`,10,y); y+=7; if(y>280){doc.addPage(); y=20;}}); let totalVol=courses.reduce((s,c)=>s+(c.diff>0?c.diff*c.prixCarb:0),0); doc.setFontSize(14); doc.text(`TOTAL VOL DETECTE: ${totalVol.toFixed(0)} FC`,10,y+10); doc.save(`Rapport_${entreprise}_V3.pdf`);}
+setCamionType();
 </script>
 </body>
 </html>
