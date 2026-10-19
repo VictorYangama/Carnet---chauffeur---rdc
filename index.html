@@ -3,118 +3,149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FLEET RDC PRO V3</title>
+<title>FLEET RDC PRO V4.1 PRODUCTION</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-body{font-family:Arial,sans-serif;margin:0;padding:20px;background:#0f172a;color:white;text-align:center}
-h1{color:#38bdf8}
-.card{background:white;color:#0f172a;padding:20px;border-radius:12px;max-width:500px;margin:20px auto;text-align:left}
-label{font-weight:bold;display:block;margin-top:12px}
-input,select{width:100%;padding:12px;margin:6px 0 10px 0;border-radius:8px;border:1px solid #ccc;box-sizing:border-box}
-.btn-bleu{background:#0f172a;color:white;padding:14px;width:100%;border:none;border-radius:8px;font-weight:bold;margin-top:10px;cursor:pointer}
-.btn-vert{background:#16a34a;color:white;padding:12px;width:100%;border:none;border-radius:8px;margin-top:8px;cursor:pointer}
-.result{background:#f1f5f9;padding:15px;border-radius:8px;margin-top:15px;color:#0f172a}
-.alert-vol{background:#fde2e2;border-left:5px solid #ef4444;padding:12px;margin-top:10px;border-radius:6px}
-.alert-ok{background:#dcfce7;border-left:5px solid #22c55e;padding:12px;margin-top:10px;border-radius:6px}
-.type-selector{display:flex;gap:10px;margin:10px 0}
-.type-btn{flex:1;padding:10px;border:2px solid #0f172a;border-radius:8px;background:white;cursor:pointer;font-weight:bold}
-.type-btn.active{background:#0f172a;color:white}
-.small{font-size:11px;color:#64748b}
+body{font-family:Arial,sans-serif;margin:0;padding:10px;background:#0a1931;color:white;text-align:center}
+h1{color:#d4af37;font-size:22px;margin:5px}
+.badge{background:#d4af37;color:#0a1931;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:bold}
+.card{background:white;color:#0f172a;padding:14px;border-radius:14px;max-width:520px;margin:10px auto;text-align:left}
+label{font-weight:bold;display:block;margin-top:10px;font-size:12px}
+input,select{width:100%;padding:11px;margin:4px 0 6px 0;border-radius:8px;border:1px solid #ccc;box-sizing:border-box;font-size:13px;background:#f9f9f9}
+.btn-bleu{background:#0a1931;color:#d4af37;padding:13px;width:100%;border:none;border-radius:9px;font-weight:bold;margin-top:10px;cursor:pointer}
+.btn-vert{background:#0a1931;color:white;padding:11px;width:100%;border:1px solid #d4af37;border-radius:8px;margin-top:8px;cursor:pointer}
+.btn-o{background:#ff9800;color:white;padding:8px;border:none;border-radius:7px;font-size:11px;cursor:pointer;margin-right:5px}
+.btn-r{background:#d32f2f;color:white;padding:8px;border:none;border-radius:7px;font-size:11px;cursor:pointer}
+.result{background:#f1f5f9;padding:12px;border-radius:8px;margin-top:12px;color:#0f172a;font-size:13px}
+.alert-vol{background:#fde2e2;border-left:5px solid #ef4444;padding:10px;margin-top:10px;border-radius:6px}
+.alert-ok{background:#dcfce7;border-left:5px solid #22c55e;padding:10px;margin-top:10px;border-radius:6px}
+.type-selector{display:flex;gap:8px;margin:8px 0}
+.type-btn{flex:1;padding:9px;border:2px solid #0a1931;border-radius:8px;background:white;cursor:pointer;font-weight:bold;font-size:11px}
+.type-btn.active{background:#0a1931;color:#d4af37}
+.small{font-size:10px;color:#64748b;margin:3px 0}
+.j-item{display:flex;justify-content:space-between;align-items:center;background:white;padding:8px;border-radius:8px;margin-bottom:5px;font-size:11px;box-shadow:0 1px 2px rgba(0,0,0,.1);color:#0f172a;text-align:left}
+.del{width:28px;height:28px;background:#ffebee;border-radius:50%;display:flex;justify-content:center;align-items:center;color:#d32f2f;font-weight:bold;cursor:pointer;flex-shrink:0}
+.j-head{background:#0a1931;color:white;padding:10px;border-radius:12px 12px 0 0;display:flex;justify-content:space-between;font-size:13px}
+.j-list{background:#e2e8f0;padding:8px;border-radius:0 0 12px 12px;min-height:50px}
+.t-bar{background:#cbd5e1;padding:10px;border-radius:10px;font-weight:bold;display:flex;justify-content:space-between;margin-top:6px;font-size:12px;color:#0f172a}
 </style>
 </head>
 <body>
-<h1>FLEET RDC PRO V3</h1>
-<p>Stop au vol - Version Pro Kinshasa</p>
+<h1>🚚 FLEET RDC PRO V4.1 <span class="badge">PRODUCTION</span></h1>
+<p style="font-size:10px;letter-spacing:1px;color:#d4af37">CAMIONS SEULEMENT • LIVRAISON PROVINCES • BRALIMA / SOCIMAT / AMIGO</p>
+
 <div class="card">
-<label>Nom Entreprise Client</label>
-<input id="entreprise" placeholder="Ex: TRANSCO SARL">
-<label>Type de Camion - NOUVEAU V3!</label>
+<label>🏢 Nom Entreprise Client (PRODUCTION)</label>
+<select id="entreprise">
+<option value="">-- Choisir --</option>
+<option selected>BRALIMA</option><option>SOCIMAT</option><option>AMIGO</option><option>MARSAVCO</option><option>ORGAMAN</option><option>BELTEXCO</option><option>BRASTEL / SKOL</option><option>MINOTERIE DE MATADI</option><option>Autre - Saisir</option>
+</select>
+<input id="entrepriseAutre" placeholder="Nom entreprise si Autre" style="display:none;margin-top:5px">
+
+<label>🚛 Type de Camion - PRODUCTION RDC (Camions seulement)</label>
 <select id="typeCamion" onchange="setCamionType()">
-<option value="28">HOWO Benne 20T (28L/100) - Le plus courant à Kin</option>
-<option value="32">Shacman Benne 25T (32L/100)</option>
-<option value="35">Mercedes Actros Remorque 40T (35L/100)</option>
-<option value="38">Volvo FH 40T Chargé lourd (38L/100)</option>
-<option value="30">Vieux Camion +10 ans HOWO (30L/100 +15% usure)</option>
-<option value="25">Petit Camion 10T Canter (25L/100)</option>
+<option value="33">Scania P360 - 33L/100 - Bralima Boissons</option>
+<option value="32">HOWO Sinotruk 371 - 32L/100 - Socimat / Carrière - Le plus utilisé RDC</option>
+<option value="35">Mercedes Actros 3340 - 35L/100 - Longue distance province</option>
+<option value="38">Mercedes Actros 4140 - 38L/100 - Gros porteur province</option>
+<option value="30">HOWO Sinotruk 336 - 30L/100 - Plateau distribution</option>
+<option value="30">Volvo FH 440 - 30L/100 - Longue distance</option>
+<option value="28">MAN TGS 33.400 - 28L/100</option>
+<option value="26">Renault Kerax 380 - 26L/100 - Chantier / Carrière</option>
+<option value="25">Mitsubishi Fuso FJ - 25L/100 - Livraison régionale</option>
+<option value="22">Isuzu FVR - 22L/100 - Distribution légère</option>
+<option value="20">Toyota Dyna / Hino 300 - 20L/100 - Petit porteur Kin</option>
+<option value="45">Shacman / Sino - 45L/100 - Tracteur minier / Ciment</option>
 <option value="custom">Autre - Saisie manuelle</option>
 </select>
-<p class="small" id="infoCamion">HOWO Benne: 28L base +30% bouchon = 36,4L réel en ville</p>
-<label>Camion / Plaque</label>
-<select id="camion"><option>Camion 1 - HOWO 1234</option><option>Camion 2 - ACTROS 5678</option><option>Camion 3 - VOLVO 9012</option></select>
-<label>Type de Trajet</label>
+<p class="small" id="infoCamion"></p>
+
+<label>Immatriculation / Plaque</label>
+<input id="camion" placeholder="Ex: 1234-AB-26">
+<label>Type de Trajet - Congo</label>
 <div class="type-selector">
-<button class="type-btn active" id="btnVille" onclick="setType('ville')">Ville Kin (+30%)</button>
-<button class="type-btn" id="btnProvince" onclick="setType('province')">Province Matadi (+35%)</button>
+<button class="type-btn active" id="btnVille" onclick="setType('ville')">Ville Kin (+30% bouchon)</button>
+<button class="type-btn" id="btnProvince" onclick="setType('province')">Province (+35% collines)</button>
 </div>
 <div id="chargeDiv" style="display:none">
 <label>Charge</label>
 <div class="type-selector">
 <button class="type-btn active" id="btnCharge" onclick="setCharge('charge')">Chargé</button>
-<button class="type-btn" id="btnVide" onclick="setCharge('vide')">Vide (retour)</button>
+<button class="type-btn" id="btnVide" onclick="setCharge('vide')">Vide (retour) -20L</button>
 </div>
 </div>
-<label>Destination</label>
-<input id="client" placeholder="Limete -> Matadi" value="Kinshasa-Matadi">
-<label>Distance (km)</label>
-<input id="kmDepart" type="number" value="350">
-<label>Conso base (L/100km) - auto-rempli</label>
-<input id="conso" type="number" value="28">
-<label>Carburant déclaré (L)</label>
-<input id="carbDeclare" type="number" value="180">
-<label>Prix Carburant (FC/L)</label>
-<input id="prixCarb" type="number" value="3500">
-<label>Facturation course (FC)</label>
-<input id="facturation" type="number" value="2500000">
-<button class="btn-bleu" onclick="calculer()">CALCULER - DÉTECTER VOL</button>
+
+<label>Destination - Production & Provinces</label>
+<select id="client">
+<optgroup label="🏭 PRODUCTION USINE/DEPOT">
+<option>Brasserie Bralima - Depot Central Kin</option>
+<option>Usine Limete - Depot N'djili / Kingasani</option>
+<option>Usine Marsavco - Depot Masina</option>
+<option>Carriere Kimpese - Cimenterie Lukala</option>
+<option>Minoterie Matadi - Depot Kinshasa</option>
+</optgroup>
+<optgroup label="🚚 LIVRAISON PROVINCES (Ta cible)">
+<option selected>Kinshasa - Matadi / Boma (350 Km)</option>
+<option>Kinshasa - Kimpese / Lukala (220 Km)</option>
+<option>Kinshasa - Kikwit (550 Km)</option>
+<option>Kinshasa - Kananga / Mbuji-Mayi (1100 Km)</option>
+<option>Kinshasa - Lubumbashi (2200 Km)</option>
+<option>Kinshasa - Goma / Bukavu (2700 Km)</option>
+<option>Matadi - Boma - Muanda</option>
+<option>Lubumbashi - Kolwezi / Likasi</option>
+</optgroup>
+</select>
+
+<div style="display:flex;gap:8px"><div style="flex:1"><label>Distance (km)</label><input id="kmDepart" type="number" value="350"></div><div style="flex:1"><label>Conso base L/100 (auto)</label><input id="conso" type="number" value="33"></div></div>
+<label>Carburant déclaré (L)</label><input id="carbDeclare" type="number" value="180">
+<div style="display:flex;gap:8px"><div style="flex:1"><label>Prix Carburant FC/L</label><input id="prixCarb" type="number" value="3500"></div><div style="flex:1"><label>Facturation course FC</label><input id="facturation" type="number" value="2500000"></div></div>
+
+<button class="btn-bleu" onclick="calculer()">🧮 CALCULER - DETECTER VOL - <span id="btnEnt">BRALIMA</span></button>
 <div id="result" class="result" style="display:none"></div>
-<button class="btn-vert" onclick="sauvegarderCourse()" id="btnSave" style="display:none">Sauvegarder course</button>
-<button class="btn-vert" onclick="genererPDF()" style="background:#0f172a">Rapport PDF Officiel</button>
+<button class="btn-vert" onclick="sauvegarderCourse()" id="btnSave" style="display:none">💾 Sauvegarder dans Journal</button>
+<button class="btn-vert" onclick="genererPDF()" style="background:#0a1931;margin-top:12px">📄 Rapport PDF Officiel - <span id="pdfEnt">BRALIMA</span></button>
 </div>
-<div class="card">
-<h4>Journal - <span id="dateJour"></span></h4>
-<div id="journal"></div>
-<p><b>Total Vol:</b> <span id="totalVol">0 FC</span></p>
+
+<div class="card" style="padding:0;overflow:hidden">
+<div class="j-head"><span>📋 Journal — <span id="jEnt">BRALIMA</span></span><span id="count" style="background:#d4af37;color:#0a1931;padding:2px 8px;border-radius:15px;font-size:10px">0</span></div>
+<div class="j-list" id="journal"></div>
+<div style="padding:8px;background:#e2e8f0">
+<div class="t-bar"><span>Total Vol Détecté:</span><span id="totalVol">0 FC</span></div>
+<div style="display:flex;gap:6px;margin-top:8px"><button class="btn-o" style="flex:1" onclick="supprDoublons()">✨ Supprimer doublons</button><button class="btn-r" style="flex:1" onclick="viderTout()">🗑️ VIDER TOUT</button></div>
 </div>
+</div>
+
 <script>
 let typeTrajet='ville'; let chargeType='charge';
-let courses=JSON.parse(localStorage.getItem('fleetCourses')||'[]');
+let courses=JSON.parse(localStorage.getItem('fleetProd')||'[]');
 let dernierCalcul=null;
-document.getElementById('dateJour').innerText=new Date().toLocaleDateString('fr-FR');
-function setCamionType(){
- let sel=document.getElementById('typeCamion');
- let val=sel.value;
- let info=document.getElementById('infoCamion');
- if(val==='custom'){ info.innerText='Saisie manuelle: Mets ta conso réelle autoroute'; return; }
- document.getElementById('conso').value=val;
- let ville=(parseFloat(val)*1.3).toFixed(1);
- let prov=(parseFloat(val)*1.35).toFixed(1);
- info.innerText=sel.options[sel.selectedIndex].text.split('(')[0] + `: ${val}L base => ${ville}L en ville Kin, ${prov}L en province Matadi`;
-}
-function setType(t){typeTrajet=t; document.getElementById('btnVille').classList.toggle('active',t==='ville'); document.getElementById('btnProvince').classList.toggle('active',t==='province'); document.getElementById('chargeDiv').style.display=t==='province'?'block':'none';}
-function setCharge(c){chargeType=c; document.getElementById('btnCharge').classList.toggle('active',c==='charge'); document.getElementById('btnVide').classList.toggle('active',c==='vide');}
+function getEnt(){let e=document.getElementById('entreprise').value;if(e==='Autre - Saisir'){e=document.getElementById('entrepriseAutre').value||'BRALIMA';}if(!e)e='BRALIMA';return e;}
+document.getElementById('entreprise').addEventListener('change',function(){let v=getEnt();document.getElementById('entrepriseAutre').style.display=this.value==='Autre - Saisir'?'block':'none';document.getElementById('jEnt').innerText=v;document.getElementById('btnEnt').innerText=v;document.getElementById('pdfEnt').innerText=v;});
+function setCamionType(){let sel=document.getElementById('typeCamion');let val=sel.value;let info=document.getElementById('infoCamion');if(val==='custom'){info.innerText='Saisie manuelle conso réelle';return;}document.getElementById('conso').value=val;let ville=(parseFloat(val)*1.3).toFixed(1);let prov=(parseFloat(val)*1.35).toFixed(1);info.innerText=sel.options[sel.selectedIndex].text.split(' - ')[0]+`: ${val}L base => ${ville}L ville Kin (+30%), ${prov}L province (+35%)`;}
+function setType(t){typeTrajet=t;document.getElementById('btnVille').classList.toggle('active',t==='ville');document.getElementById('btnProvince').classList.toggle('active',t==='province');document.getElementById('chargeDiv').style.display=t==='province'?'block':'none';}
+function setCharge(c){chargeType=c;document.getElementById('btnCharge').classList.toggle('active',c==='charge');document.getElementById('btnVide').classList.toggle('active',c==='vide');}
 function calculer(){
- let km=parseFloat(document.getElementById('kmDepart').value);
- let consoBase=parseFloat(document.getElementById('conso').value);
- let carbDeclare=parseFloat(document.getElementById('carbDeclare').value);
- let prixCarb=parseFloat(document.getElementById('prixCarb').value);
- let fact=parseFloat(document.getElementById('facturation').value)||0;
- if(!km||!consoBase||!carbDeclare){alert('Remplis tout');return;}
- let litresTheorique; let explication; let camionNom=document.getElementById('typeCamion').options[document.getElementById('typeCamion').selectedIndex].text;
- if(typeTrajet==='ville'){litresTheorique=(km*consoBase/100)*1.30; explication=`${camionNom} - Base ${(km*consoBase/100).toFixed(1)}L +30% bouchon Kin = ${litresTheorique.toFixed(1)}L`;}
- else{if(chargeType==='charge'){litresTheorique=(km*consoBase/100)*1.35; explication=`${camionNom} - Base ${(km*consoBase/100).toFixed(1)}L +35% collines + charge = ${litresTheorique.toFixed(1)}L`;}else{litresTheorique=(km*20/100)*1.15; explication=`Retour VIDE: Base 20L/100 +15% = ${litresTheorique.toFixed(1)}L - Vide doit consommer MOINS!`;}}
- let diff=carbDeclare-litresTheorique; let benef=fact-(carbDeclare*prixCarb); let alerte='';
- if(diff>5){alerte=`<div class="alert-vol">VOL DETECTE: ${diff.toFixed(1)}L = ${(diff*prixCarb).toFixed(0)} FC!<br><small>${explication}</small></div>`;}
- else if(diff<-5){alerte=`<div class="alert-ok">ECONOMIE: ${Math.abs(diff).toFixed(1)}L</div>`;}
- else{alerte=`<div class="alert-ok">CONSO NORMALE: ${explication}</div>`;}
- document.getElementById('result').innerHTML=`<b>Theo:</b> ${litresTheorique.toFixed(1)}L<br><b>Declare:</b> ${carbDeclare}L<br><b>Diff:</b> ${diff.toFixed(1)}L<br><b>Benef:</b> ${benef.toFixed(0)} FC<br>${alerte}`;
- document.getElementById('result').style.display='block'; document.getElementById('btnSave').style.display='block';
- dernierCalcul={km,consoBase,carbDeclare,litresTheorique,diff,prixCarb,benef,typeTrajet,chargeType,client:document.getElementById('client').value,camion:document.getElementById('camion').value + ' - ' + camionNom, date:new Date().toLocaleString('fr-FR')};
+ let km=parseFloat(document.getElementById('kmDepart').value);let consoBase=parseFloat(document.getElementById('conso').value);let carbDeclare=parseFloat(document.getElementById('carbDeclare').value);let prixCarb=parseFloat(document.getElementById('prixCarb').value);let fact=parseFloat(document.getElementById('facturation').value)||0;let ent=getEnt();
+ if(!km||!consoBase||!carbDeclare){alert('Remplis distance, conso, carburant');return;}
+ let litresTheorique;let explication;let camionNom=document.getElementById('typeCamion').options[document.getElementById('typeCamion').selectedIndex].text;
+ if(typeTrajet==='ville'){litresTheorique=(km*consoBase/100)*1.30;explication=`${camionNom} - Base ${(km*consoBase/100).toFixed(1)}L +30% bouchon Kin = ${litresTheorique.toFixed(1)}L`;}
+ else{if(chargeType==='charge'){litresTheorique=(km*consoBase/100)*1.35;explication=`${camionNom} - Base ${(km*consoBase/100).toFixed(1)}L +35% collines + charge = ${litresTheorique.toFixed(1)}L`;}else{litresTheorique=(km*20/100)*1.15;explication=`Retour VIDE: Base 20L/100 +15% = ${litresTheorique.toFixed(1)}L - Vide doit consommer MOINS!`;}}
+ let diff=carbDeclare-litresTheorique;let benef=fact-(carbDeclare*prixCarb);let alerte='';
+ if(diff>5){alerte=`<div class="alert-vol">🚨 VOL DETECTE pour ${ent}: ${diff.toFixed(1)}L = ${(diff*prixCarb).toLocaleString()} FC!<br><small>${explication}</small></div>`;}
+ else if(diff<-5){alerte=`<div class="alert-ok">✅ ECONOMIE: ${Math.abs(diff).toFixed(1)}L pour ${ent}</div>`;}
+ else{alerte=`<div class="alert-ok">✅ CONSO NORMALE ${ent}: ${explication}</div>`;}
+ document.getElementById('result').innerHTML=`<b>Entreprise:</b> ${ent}<br><b>Theo:</b> ${litresTheorique.toFixed(1)}L<br><b>Declare:</b> ${carbDeclare}L<br><b>Diff:</b> ${diff.toFixed(1)}L<br><b>Benef:</b> ${benef.toLocaleString()} FC<br>${alerte}`;
+ document.getElementById('result').style.display='block';document.getElementById('btnSave').style.display='block';
+ let immat=document.getElementById('camion').value||'Camion';let dest=document.getElementById('client').value;let cle=ent+'-'+immat+'-'+km+'-'+carbDeclare+'-'+dest;
+ dernierCalcul={id:Date.now(),km,consoBase,carbDeclare,litresTheorique,diff,prixCarb,benef,typeTrajet,chargeType,client:dest,camion:immat+' - '+camionNom,ent,date:new Date().toLocaleString('fr-FR'),cle,vol:diff.toFixed(1),volFC:Math.round(diff>0?diff*prixCarb:0)};
 }
-function sauvegarderCourse(){if(!dernierCalcul)return; courses.push(dernierCalcul); localStorage.setItem('fleetCourses',JSON.stringify(courses)); afficherJournal(); alert('Sauvegardé!');}
-function afficherJournal(){let html=''; let total=0; courses.forEach(c=>{let vol=c.diff>0?c.diff*c.prixCarb:0; total+=vol; html+=`<div style="border-bottom:1px solid #ddd;padding:6px 0;font-size:12px">${c.date} - ${c.camion.split(' - ')[0]} - ${c.client} - ${c.diff.toFixed(1)}L (${vol.toFixed(0)}FC)</div>`;}); document.getElementById('journal').innerHTML=html||'Aucune course'; document.getElementById('totalVol').innerText=total.toFixed(0)+' FC';}
-afficherJournal();
-function genererPDF(){const {jsPDF}=window.jspdf; const doc=new jsPDF(); let entreprise=document.getElementById('entreprise').value||'FLEET RDC PRO'; doc.setFontSize(16); doc.text(entreprise+' - RAPPORT OFFICIEL V3',10,20); doc.setFontSize(10); doc.text('Date: '+new Date().toLocaleString('fr-FR'),10,30); let y=50; if(courses.length===0&&dernierCalcul){courses=[dernierCalcul];} courses.forEach((c,i)=>{doc.text(`${i+1}. ${c.camion} | ${c.client} | ${c.km}km | Theo:${c.litresTheorique.toFixed(1)}L Decl:${c.carbDeclare}L | Diff:${c.diff.toFixed(1)}L | ${c.typeTrajet}/${c.chargeType}`,10,y); y+=7; if(y>280){doc.addPage(); y=20;}}); let totalVol=courses.reduce((s,c)=>s+(c.diff>0?c.diff*c.prixCarb:0),0); doc.setFontSize(14); doc.text(`TOTAL VOL DETECTE: ${totalVol.toFixed(0)} FC`,10,y+10); doc.save(`Rapport_${entreprise}_V3.pdf`);}
-setCamionType();
+function afficherJournal(){let html='';let total=0;let count=document.getElementById('count');if(courses.length===0){html='<div style="text-align:center;padding:15px;color:#64748b;font-size:11px">Aucune mission - Choisis BRALIMA et calcule</div>';}else{[...courses].reverse().forEach(c=>{let vol=c.diff>0?c.diff*c.prixCarb:0;total+=vol;html+=`<div class="j-item"><div><b>${c.ent} • ${c.camion.split(' - ')[0]} • ${c.client}</b><br><small>${c.date} - Diff ${c.diff.toFixed(1)}L (${vol.toLocaleString()}FC) - ${c.typeTrajet}</small></div><div class="del" onclick="supprUn(${c.id})">✕</div></div>`;});}document.getElementById('journal').innerHTML=html;document.getElementById('totalVol').innerText=total.toLocaleString()+' FC / '+(total/3500).toFixed(1)+'L';if(count)count.innerText=courses.length;}
+function sauvegarderCourse(){if(!dernierCalcul)return;if(courses.some(e=>e.cle===dernierCalcul.cle)){alert('⚠️ Doublon bloqué - Cette course existe déjà');return;}courses.push(dernierCalcul);localStorage.setItem('fleetProd',JSON.stringify(courses));afficherJournal();alert('✅ Sauvegardé pour '+dernierCalcul.ent+'!');}
+function supprUn(id){courses=courses.filter(e=>e.id!==id);localStorage.setItem('fleetProd',JSON.stringify(courses));afficherJournal();}
+function viderTout(){if(confirm('Vider tout le journal '+getEnt()+' ?')){courses=[];localStorage.removeItem('fleetProd');afficherJournal();}}
+function supprDoublons(){let m={};let f=[];courses.forEach(e=>{if(!m[e.cle]){m[e.cle]=true;f.push(e);}});let sup=courses.length-f.length;courses=f;localStorage.setItem('fleetProd',JSON.stringify(courses));afficherJournal();alert(sup===0?'Aucun doublon':sup+' doublon(s) supprimé(s)');}
+function genererPDF(){if(courses.length===0&&!dernierCalcul){alert('Journal vide - Calcule d abord');return;}const {jsPDF}=window.jspdf;const doc=new jsPDF();let ent=getEnt();let list=courses.length>0?courses:(dernierCalcul?[dernierCalcul]:[]);doc.setFontSize(16);doc.text('FLEET RDC PRO - RAPPORT '+ent,10,20);doc.setFontSize(10);doc.text('Entreprise: '+ent+' - Type: PRODUCTION Camions seulement - Livraison Provinces',10,28);doc.text('Date: '+new Date().toLocaleString('fr-FR'),10,34);let y=45;let tot=0;list.forEach((c,i)=>{if(y>270){doc.addPage();y=15;}doc.text(`${i+1}. ${c.date} | ${c.ent} | ${c.camion} | ${c.client} | ${c.km}km | Theo:${c.litresTheorique.toFixed(1)}L Decl:${c.carbDeclare}L | Diff:${c.diff.toFixed(1)}L | ${c.typeTrajet}`,10,y);y+=7;tot+=c.diff>0?c.diff*c.prixCarb:0;});doc.setFontSize(13);doc.text(`TOTAL VOL DETECTE ${ent}: ${tot.toLocaleString()} FC`,10,y+10);doc.setFontSize(9);doc.text('FLEET RDC PRO V4.1 PRODUCTION - Rapport confidentiel pour DG '+ent,10,y+18);doc.save(`Rapport_${ent}_PRODUCTION_V4.1.pdf`);}
+afficherJournal();setCamionType();
 </script>
 </body>
 </html>
